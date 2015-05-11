@@ -30,8 +30,6 @@ public class MainActivity extends Activity {
 
     public void listadoOnClick(View view){
         startActivity(new Intent(this, ListadoActivity.class));
-
-
     }
 
     public void EnviarOnClik(View view) {

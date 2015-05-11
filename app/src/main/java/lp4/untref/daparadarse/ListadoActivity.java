@@ -1,6 +1,5 @@
 package lp4.untref.daparadarse;
 
-
         import java.util.ArrayList;
         import org.apache.http.HttpEntity;
         import org.apache.http.HttpResponse;
