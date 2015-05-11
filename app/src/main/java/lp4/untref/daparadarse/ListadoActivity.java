@@ -73,8 +73,7 @@ public class ListadoActivity extends Activity {
             for (int i=0; i<json.length();i++){
                 texto = json.getJSONObject(i).getString("nombre") +" - "+
                         json.getJSONObject(i).getString("apellido") +" - "+
-                        json.getJSONObject(i).getString("edad") +" - "+
-                        json.getJSONObject(i).getString("modo");
+                        json.getJSONObject(i).getString("edad");
                 listado.add(texto);
             }
         } catch (Exception e) {
