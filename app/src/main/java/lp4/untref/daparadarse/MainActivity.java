@@ -15,7 +15,6 @@ package lp4.untref.daparadarse;
         import android.os.Bundle;
         import android.app.Activity;
         import android.content.Intent;
-        import android.view.Menu;
         import android.view.View;
         import android.widget.CheckBox;
         import android.widget.EditText;
@@ -58,7 +57,7 @@ public class MainActivity extends Activity {
                         }
                     });
                 } catch (Exception e) {
-                    // TODO: handle exception
+                    e.printStackTrace();
                 }
             }
         };
@@ -86,7 +85,7 @@ public class MainActivity extends Activity {
             httpPost.setEntity(new UrlEncodedFormEntity(params));
             response = httpClient.execute(httpPost, localContext);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return response.toString();
 
@@ -105,16 +104,9 @@ public class MainActivity extends Activity {
             response = httpClient.execute(httpget, localContext);
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return response.toString();
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
 
 }
