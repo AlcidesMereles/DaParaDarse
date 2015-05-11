@@ -80,4 +80,10 @@
         android:text="Listado"
         android:onClick="listadoOnClick" />
 
+    <fragment
+        android:name="lp4.untref.daparadarse.LoginFacebookFragment"
+        android:id="@+id/login_facebook_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>
