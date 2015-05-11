@@ -72,7 +72,7 @@ public class LoginFacebookFragment extends Fragment {
         super.onPause();
         uiHelper.onPause();
     }
-
+//
     @Override
     public void onDestroy() {
         super.onDestroy();
