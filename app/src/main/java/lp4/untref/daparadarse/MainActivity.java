@@ -28,6 +28,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
+    public void listadoOnClick(View view){
+        startActivity(new Intent(this, ListadoActivity.class));
+
+
+    }
 
     public void EnviarOnClik(View view) {
         Thread nt = new Thread() {
@@ -62,11 +67,6 @@ public class MainActivity extends Activity {
             }
         };
         nt.start();
-    }
-
-    public void listadoOnClick(View view){
-        Intent intent = new Intent(MainActivity.this, ListadoActivity.class);
-        startActivity(intent);
     }
 
     public String enviarPost(String nombre, String apellido, String edad) {
