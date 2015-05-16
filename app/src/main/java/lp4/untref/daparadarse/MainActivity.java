@@ -1,110 +1,105 @@
 package lp4.untref.daparadarse;
 
-        import java.util.ArrayList;
-        import java.util.List;
-        import org.apache.http.HttpResponse;
-        import org.apache.http.NameValuePair;
-        import org.apache.http.client.HttpClient;
-        import org.apache.http.client.entity.UrlEncodedFormEntity;
-        import org.apache.http.client.methods.HttpGet;
-        import org.apache.http.client.methods.HttpPost;
-        import org.apache.http.impl.client.DefaultHttpClient;
-        import org.apache.http.message.BasicNameValuePair;
-        import org.apache.http.protocol.BasicHttpContext;
-        import org.apache.http.protocol.HttpContext;
-        import android.os.Bundle;
-        import android.app.Activity;
-        import android.content.Intent;
-        import android.view.View;
-        import android.widget.CheckBox;
-        import android.widget.EditText;
-        import android.widget.Toast;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
-public class MainActivity extends Activity {
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+
+public class MainActivity extends ActionBarActivity {
+    // Create, automatically open (if applicable), save, and restore the
+    // Active Session in a way that is similar to Android UI lifecycles.
+    private UiLifecycleHelper uiHelper;
+    private View otherView;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Set View that should be visible after log-in invisible initially
+        otherView = (View) findViewById(R.id.other_views);
+        otherView.setVisibility(View.GONE);
+        // To maintain FB Login session
+        uiHelper = new UiLifecycleHelper(this, callback);
+        uiHelper.onCreate(savedInstanceState);
     }
 
-    public void listadoOnClick(View view){
-        startActivity(new Intent(this, ListadoActivity.class));
-    }
+    // Called when session changes
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state,
+                         Exception exception) {
+            onSessionStateChange(session, state, exception);
+        }
+    };
 
-    public void EnviarOnClik(View view) {
-        Thread nt = new Thread() {
-            @Override
-            public void run() {
-                EditText nombre = (EditText) findViewById(R.id.et_nombre);
-                EditText apellido = (EditText) findViewById(R.id.et_apellido);
-                EditText edad = (EditText) findViewById(R.id.et_edad);
-                CheckBox modo = (CheckBox) findViewById(R.id.ck_modo);
+    // When session is changed, this method is called from callback method
+    private void onSessionStateChange(Session session, SessionState state,
+                                      Exception exception) {
+        final TextView name = (TextView) findViewById(R.id.name);
+        final TextView gender = (TextView) findViewById(R.id.gender);
+        // When Session is successfully opened (User logged-in)
+        if (state.isOpened()) {
+            Log.i(TAG, "Logged in...");
+            // make request to the /me API to get Graph user
+            Request.newMeRequest(session, new Request.GraphUserCallback() {
 
-                try {
-                    final String res;
-                    if (modo.isChecked()) {
-                        res = enviarGet(nombre.getText().toString(), apellido
-                                .getText().toString(), edad.getText().toString());
-
-                    } else {
-                        res = enviarPost(nombre.getText().toString(), apellido
-                                .getText().toString(), edad.getText().toString());
+                // callback after Graph API response with user
+                // object
+                @Override
+                public void onCompleted(GraphUser user, Response response) {
+                    if (user != null) {
+                        // Set view visibility to true
+                        otherView.setVisibility(View.VISIBLE);
+                        // Set User name
+                        name.setText("Bienvenido " + user.getName());
                     }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(MainActivity.this, res,
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        };
-        nt.start();
-    }
-
-    public String enviarPost(String nombre, String apellido, String edad) {
-
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpContext localContext = new BasicHttpContext();
-        HttpPost httpPost = new HttpPost(
-                "http://www.daparadarse.site88.net/Android/PutData.php");
-        HttpResponse response = null;
-        try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>(3);
-            params.add(new BasicNameValuePair("nombre", nombre));
-            params.add(new BasicNameValuePair("apellido", apellido));
-            params.add(new BasicNameValuePair("edad", edad));
-            params.add(new BasicNameValuePair("modo", "POST"));
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
-            response = httpClient.execute(httpPost, localContext);
-        } catch (Exception e) {
-            e.printStackTrace();
+            }).executeAsync();
+        } else if (state.isClosed()) {
+            Log.i(TAG, "Logged out...");
+            otherView.setVisibility(View.GONE);
         }
-        return response.toString();
-
     }
 
-    public String enviarGet(String nombre, String apellido, String edad) {
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpContext localContext = new BasicHttpContext();
-        HttpResponse response = null;
-        String parametros = "?nombre=" + nombre + "&apellido=" + apellido
-                + "&edad=" + edad + "&modo=GET";
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        HttpGet httpget = new HttpGet(
-                "http://www.daparadarse.site88.net/Android/PutData.php" + parametros);
-        try {
-            response = httpClient.execute(httpget, localContext);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response.toString();
+        uiHelper.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "OnActivityResult...");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        uiHelper.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        uiHelper.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiHelper.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        uiHelper.onSaveInstanceState(outState);
+    }
 }
