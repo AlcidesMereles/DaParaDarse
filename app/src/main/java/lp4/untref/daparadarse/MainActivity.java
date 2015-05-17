@@ -1,5 +1,26 @@
 package lp4.untref.daparadarse;
 
+
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +41,11 @@ public class MainActivity extends ActionBarActivity {
     private UiLifecycleHelper uiHelper;
     private View otherView;
     private static final String TAG = "MainActivity";
+    private String facebookID;
+    private String nombre;
+    private String apellido;
+    private String edad;
+    private String sexo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
         // To maintain FB Login session
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
+
     }
 
     // Called when session changes
@@ -62,6 +89,29 @@ public class MainActivity extends ActionBarActivity {
                         otherView.setVisibility(View.VISIBLE);
                         // Set User name
                         name.setText("Bienvenido " + user.getName());
+                        nombre = user.getFirstName();
+                        apellido = user.getLastName();
+                        edad = user.getId();//Solo pruebo.
+                        facebookID = user.getId();
+                        sexo = user.getProperty("gender").toString();
+                        gender.setText("Your gender:" + user.getProperty("gender").toString());
+
+                        Thread nt = new Thread() {
+                            @Override
+                            public void run() {
+
+                                try {
+                                    final String res;
+
+                                    res = enviarPost(facebookID,nombre,apellido,edad,sexo);
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                        nt.start();
                     }
                 }
             }).executeAsync();
@@ -101,5 +151,26 @@ public class MainActivity extends ActionBarActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         uiHelper.onSaveInstanceState(outState);
+    }
+
+    public String enviarPost(String facebookID,String nombre, String apellido, String edad,String sexo) {
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpContext localContext = new BasicHttpContext();
+        HttpPost httpPost = new HttpPost(
+                "http://www.daparadarse.site88.net/Android/PutData.php");
+        HttpResponse response = null;
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+            params.add(new BasicNameValuePair("id", facebookID));
+            params.add(new BasicNameValuePair("nombre", nombre));
+            params.add(new BasicNameValuePair("apellido", apellido));
+            params.add(new BasicNameValuePair("edad", edad));
+            params.add(new BasicNameValuePair("sexo", sexo));
+            httpPost.setEntity(new UrlEncodedFormEntity(params));
+            response = httpClient.execute(httpPost, localContext);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response.toString();
     }
 }
