@@ -1,31 +1,13 @@
 package lp4.untref.daparadarse;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import android.os.Bundle;
-import android.app.Activity;
-import android.content.Intent;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Toast;
-
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.Request;
@@ -35,31 +17,32 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends ActionBarActivity {
+    private static final String TAG = "MainActivity";
+    public Button botonGaleria;
+    public ProgressDialog miProgressDialog;
     // Create, automatically open (if applicable), save, and restore the
     // Active Session in a way that is similar to Android UI lifecycles.
     private UiLifecycleHelper uiHelper;
     private View otherView;
-    private static final String TAG = "MainActivity";
     private String facebookID;
     private String nombre;
     private String apellido;
     private String edad;
     private String sexo;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        // Set View that should be visible after log-in invisible initially
-        otherView = (View) findViewById(R.id.other_views);
-        otherView.setVisibility(View.GONE);
-        // To maintain FB Login session
-        uiHelper = new UiLifecycleHelper(this, callback);
-        uiHelper.onCreate(savedInstanceState);
-
-    }
-
     // Called when session changes
     private Session.StatusCallback callback = new Session.StatusCallback() {
         @Override
@@ -68,6 +51,34 @@ public class MainActivity extends ActionBarActivity {
             onSessionStateChange(session, state, exception);
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        // Set View that should be visible after log-in invisible initially
+        otherView = findViewById(R.id.other_views);
+        otherView.setVisibility(View.GONE);
+        // To maintain FB Login session
+        uiHelper = new UiLifecycleHelper(this, callback);
+        uiHelper.onCreate(savedInstanceState);
+        botonGaleria = (Button) findViewById(R.id.button);
+        findViewById(R.id.botonPantalla1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                irAGaleria();
+                //startActivity(new Intent(MainActivity.this, pantallasTinder.class));
+            }
+        });
+
+    }
+
+    public void irAGaleria(){
+
+        Intent intent;
+        intent = new Intent(MainActivity.this, demo.pantallasTinder.class);
+        startActivity(intent);
+    }
 
     // When session is changed, this method is called from callback method
     private void onSessionStateChange(Session session, SessionState state,
