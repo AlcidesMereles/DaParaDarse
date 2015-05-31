@@ -13,10 +13,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,6 +38,11 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
+import andtinder.model.CardModel;
+import andtinder.view.CardContainer;
+import andtinder.view.SimpleCardStackAdapter;
+import demo.pantallasTinder;
+
 public class MainActivity extends ActionBarActivity {
     // Create, automatically open (if applicable), save, and restore the
     // Active Session in a way that is similar to Android UI lifecycles.
@@ -46,6 +54,9 @@ public class MainActivity extends ActionBarActivity {
     private String apellido;
     private String edad;
     private String sexo;
+    public Button botonGaleria;
+    public ProgressDialog miProgressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +68,15 @@ public class MainActivity extends ActionBarActivity {
         // To maintain FB Login session
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
+        botonGaleria = (Button) findViewById(R.id.button);
 
+    }
+
+    public void irAGaleria(){
+
+        Intent intent;
+        intent = new Intent(this, ListadoActivity.class);
+        startActivity(intent);
     }
 
     // Called when session changes

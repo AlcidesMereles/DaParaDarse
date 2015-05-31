@@ -24,7 +24,7 @@ public class ListadoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado);
-
+/**
         Thread tr = new Thread(){
             @Override
             public void run(){
@@ -39,9 +39,9 @@ public class ListadoActivity extends Activity {
             }
         };
         tr.start();
-
+**/
     }
-
+/**
     public String leer(){
         HttpClient cliente =new DefaultHttpClient();
         HttpContext contexto = new BasicHttpContext();
@@ -81,5 +81,5 @@ public class ListadoActivity extends Activity {
         }
         return listado;
     }
-
+**/
 }
