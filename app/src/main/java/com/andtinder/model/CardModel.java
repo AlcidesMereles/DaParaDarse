@@ -15,7 +15,7 @@
  * @license: Apache License 2.0
  */
 
-package andtinder.model;
+package com.andtinder.model;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;

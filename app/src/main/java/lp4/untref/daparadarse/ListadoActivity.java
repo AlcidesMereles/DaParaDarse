@@ -13,8 +13,9 @@ package lp4.untref.daparadarse;
         import android.app.Activity;
         import android.widget.ArrayAdapter;
         import android.widget.ListView;
-        import javaphpmysql.JSONObject;
-        import javaphpmysql.JSONArray;
+//TODO
+//        import javaphpmysql.JSONObject;
+//        import javaphpmysql.JSONArray;
 
 public class ListadoActivity extends Activity {
 

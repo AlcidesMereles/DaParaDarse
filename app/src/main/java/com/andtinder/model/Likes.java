@@ -15,7 +15,7 @@
  * @license: Apache License 2.0
  */
 
-package andtinder.model;
+package com.andtinder.model;
 
 public class Likes {
 	 public enum Like {

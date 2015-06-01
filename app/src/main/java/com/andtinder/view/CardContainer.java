@@ -1,4 +1,4 @@
-package andtinder.view;
+package com.andtinder.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -27,8 +27,9 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
 //import andtinder.R;
-import andtinder.model.CardModel;
-import andtinder.model.Orientations.Orientation;
+import com.andtinder.model.Orientations;
+import com.andtinder.model.CardModel;
+
 import lp4.untref.daparadarse.R;
 
 import java.util.Random;
@@ -62,7 +63,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
     private int mMaxVisible = 10;
     private GestureDetector mGestureDetector;
     private int mFlingSlop;
-    private Orientation mOrientation;
+    private Orientations.Orientation mOrientation;
     private ListAdapter mListAdapter;
     private float mLastTouchX;
     private float mLastTouchY;
@@ -75,7 +76,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
     public CardContainer(Context context) {
         super(context);
 
-        setOrientation(Orientation.Disordered);
+        setOrientation(Orientations.Orientation.Disordered);
         setGravity(Gravity.CENTER);
         init();
 
@@ -107,7 +108,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
 
         setGravity(a.getInteger(R.styleable.CardContainer_android_gravity, Gravity.CENTER));
         int orientation = a.getInteger(R.styleable.CardContainer_orientation, 1);
-        setOrientation(Orientation.fromIndex(orientation));
+        setOrientation(Orientations.Orientation.fromIndex(orientation));
 
         a.recycle();
     }
@@ -144,7 +145,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
         while (mNextAdapterPosition < mListAdapter.getCount() && getChildCount() < mMaxVisible) {
             View view = mListAdapter.getView(mNextAdapterPosition, null, this);
             view.setLayerType(LAYER_TYPE_SOFTWARE, null);
-            if(mOrientation == Orientation.Disordered) {
+            if(mOrientation == Orientations.Orientation.Disordered) {
                 view.setRotation(getDisorderedRotation());
             }
             addViewInLayout(view, 0, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
@@ -162,17 +163,17 @@ public class CardContainer extends AdapterView<ListAdapter> {
         mTopCard = null;
     }
 
-    public Orientation getOrientation() {
+    public Orientations.Orientation getOrientation() {
         return mOrientation;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void setOrientation(Orientation orientation) {
+    public void setOrientation(Orientations.Orientation orientation) {
         if (orientation == null)
             throw new NullPointerException("Orientation may not be null");
         if(mOrientation != orientation) {
             this.mOrientation = orientation;
-            if(orientation == Orientation.Disordered) {
+            if(orientation == Orientations.Orientation.Disordered) {
                 for (int i = 0; i < getChildCount(); i++) {
                     View child = getChildAt(i);
                     child.setRotation(getDisorderedRotation());
@@ -201,7 +202,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
         int requestedHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
         int childWidth, childHeight;
 
-        if (mOrientation == Orientation.Disordered) {
+        if (mOrientation == Orientations.Orientation.Disordered) {
             int R1, R2;
             if (requestedWidth >= requestedHeight) {
                 R1 = requestedHeight;

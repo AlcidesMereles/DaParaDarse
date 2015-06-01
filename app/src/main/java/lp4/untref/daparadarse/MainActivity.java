@@ -7,7 +7,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -16,19 +15,12 @@ import org.apache.http.protocol.HttpContext;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.Request;
@@ -38,9 +30,6 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
-import andtinder.model.CardModel;
-import andtinder.view.CardContainer;
-import andtinder.view.SimpleCardStackAdapter;
 import demo.pantallasTinder;
 
 public class MainActivity extends ActionBarActivity {
@@ -72,10 +61,10 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void irAGaleria(){
+    public void irAGaleria(View view){
 
         Intent intent;
-        intent = new Intent(this, ListadoActivity.class);
+        intent = new Intent(this, pantallasTinder.class);
         startActivity(intent);
     }
 

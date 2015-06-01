@@ -1,4 +1,4 @@
-package andtinder.view;
+package com.andtinder.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import andtinder.model.CardModel;
+import com.andtinder.model.CardModel;
 import lp4.untref.daparadarse.R;
 
 public final class SimpleCardStackAdapter extends CardStackAdapter {

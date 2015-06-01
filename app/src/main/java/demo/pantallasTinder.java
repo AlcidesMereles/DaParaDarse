@@ -14,14 +14,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 
-import andtinder.model.CardModel;
-import andtinder.view.CardContainer;
-import andtinder.view.SimpleCardStackAdapter;
+import com.andtinder.model.CardModel;
+import com.andtinder.view.CardContainer;
+import com.andtinder.view.SimpleCardStackAdapter;
 import lp4.untref.daparadarse.R;
 
-//import com.andtinder.model.CardModel;
-//import com.andtinder.view.CardContainer;
-//import com.andtinder.view.SimpleCardStackAdapter;
+//import com.CardModel;
+//import com.CardContainer;
+//import com.SimpleCardStackAdapter;
 
 //import lp4.untref.daparadarse.R;
 

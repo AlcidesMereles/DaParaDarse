@@ -1,11 +1,11 @@
-package andtinder.view;
+package com.andtinder.view;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import andtinder.model.CardModel;
+import com.andtinder.model.CardModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
