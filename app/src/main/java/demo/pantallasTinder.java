@@ -1,11 +1,3 @@
-/**
- * AndTinder v0.1 for Android
- *
- * @Author: Enrique Lopez Manas <eenriquelopez@gmail.com>
- * http://www.lopez-manas.com
-
- **/
-
 package demo;
 
 import android.app.Activity;
@@ -13,17 +5,10 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
-
 import com.andtinder.model.CardModel;
 import com.andtinder.view.CardContainer;
 import com.andtinder.view.SimpleCardStackAdapter;
 import lp4.untref.daparadarse.R;
-
-//import com.CardModel;
-//import com.CardContainer;
-//import com.SimpleCardStackAdapter;
-
-//import lp4.untref.daparadarse.R;
 
 public class pantallasTinder extends Activity {
 

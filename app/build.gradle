@@ -28,6 +28,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:support-v4:22.0.0'
     compile 'com.facebook.android:facebook-android-sdk:3.20.0'
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile files('libs/json-libreria-1.jar')
+    compile 'org.json:json:20141113'
 }

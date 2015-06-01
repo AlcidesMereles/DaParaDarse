@@ -28,17 +28,6 @@
 
             android:textSize="30dp" />
 
-        <TextView
-            android:id="@+id/gender"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:gravity="left"
-            android:text="Gender"
-
-            android:textSize="15dp" />
-
-
     </LinearLayout>
     <Button
         android:id="@+id/botonPantalla1"
