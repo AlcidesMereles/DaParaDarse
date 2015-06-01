@@ -2,7 +2,11 @@ package lp4.untref.daparadarse;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+//TODO
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -13,6 +17,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -68,12 +74,64 @@ public class MainActivity extends ActionBarActivity {
             onSessionStateChange(session, state, exception);
         }
     };
-
+    //TODO
     // When session is changed, this method is called from callback method
+//    private void onSessionStateChange(Session session, SessionState state,
+//                                      Exception exception) {
+//        final TextView name = (TextView) findViewById(R.id.name);
+//        final TextView gender = (TextView) findViewById(R.id.gender);
+//        // When Session is successfully opened (User logged-in)
+//        if (state.isOpened()) {
+//            Log.i(TAG, "Logged in...");
+//            // make request to the /me API to get Graph user
+//            Request.newMeRequest(session, new Request.GraphUserCallback() {
+//
+//                // callback after Graph API response with user
+//                // object
+//                @Override
+//                public void onCompleted(GraphUser user, Response response) {
+//                    if (user != null) {
+//                        // Set view visibility to true
+//                        otherView.setVisibility(View.VISIBLE);
+//                        // Set User name
+//                        name.setText("Bienvenido " + user.getName());
+//                        nombre = user.getFirstName();
+//                        apellido = user.getLastName();
+//                        edad = user.getId();//Solo pruebo.
+//                        facebookID = user.getId();
+//                        sexo = user.getProperty("gender").toString();
+//                        gender.setText("Your gender:" + user.getProperty("gender").toString());
+//
+//                        Thread nt = new Thread() {
+//                            @Override
+//                            public void run() {
+//
+//                                try {
+//                                    final String res;
+//
+//                                    res = enviarPost(facebookID,nombre,apellido,edad,sexo);
+//
+//
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        };
+//                        nt.start();
+//                    }
+//                }
+//            }).executeAsync();
+//        } else if (state.isClosed()) {
+//            Log.i(TAG, "Logged out...");
+//            otherView.setVisibility(View.GONE);
+//        }
+//    }
+
+
+    //TODO
     private void onSessionStateChange(Session session, SessionState state,
                                       Exception exception) {
         final TextView name = (TextView) findViewById(R.id.name);
-        final TextView gender = (TextView) findViewById(R.id.gender);
         // When Session is successfully opened (User logged-in)
         if (state.isOpened()) {
             Log.i(TAG, "Logged in...");
@@ -93,33 +151,28 @@ public class MainActivity extends ActionBarActivity {
                         apellido = user.getLastName();
                         edad = user.getId();//Solo pruebo.
                         facebookID = user.getId();
-                        sexo = user.getProperty("gender").toString();
-                        gender.setText("Your gender:" + user.getProperty("gender").toString());
-
-                        Thread nt = new Thread() {
-                            @Override
-                            public void run() {
-
-                                try {
-                                    final String res;
-
-                                    res = enviarPost(facebookID,nombre,apellido,edad,sexo);
+                        sexo = user.getProperty("gender").toString().equals("male")?"hombre":"mujer";
 
 
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        };
-                        nt.start();
+                        final String res;
+                        Map<String,String> map = new HashMap<String, String>();
+                        map.put("nombre",nombre);
+                        map.put("apellido",apellido);
+                        map.put("edad",edad);
+                        map.put("facebookID",facebookID);
+                        TareaEnvioDeDatos envioDeDatos = new TareaEnvioDeDatos ();
+                        envioDeDatos.execute(map);
+
                     }
+
                 }
             }).executeAsync();
-        } else if (state.isClosed()) {
+        }else if (state.isClosed()) {
             Log.i(TAG, "Logged out...");
             otherView.setVisibility(View.GONE);
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -153,24 +206,5 @@ public class MainActivity extends ActionBarActivity {
         uiHelper.onSaveInstanceState(outState);
     }
 
-    public String enviarPost(String facebookID,String nombre, String apellido, String edad,String sexo) {
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpContext localContext = new BasicHttpContext();
-        HttpPost httpPost = new HttpPost(
-                "http://www.daparadarse.site88.net/Android/PutData.php");
-        HttpResponse response = null;
-        try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>(3);
-            params.add(new BasicNameValuePair("id", facebookID));
-            params.add(new BasicNameValuePair("nombre", nombre));
-            params.add(new BasicNameValuePair("apellido", apellido));
-            params.add(new BasicNameValuePair("edad", edad));
-            params.add(new BasicNameValuePair("sexo", sexo));
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
-            response = httpClient.execute(httpPost, localContext);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response.toString();
-    }
+
 }
