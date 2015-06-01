@@ -30,7 +30,7 @@ public class ClienteHttp {
         HttpResponse response = null;
         try {
             List<NameValuePair> params = new ArrayList<NameValuePair>(3);
-            params.add(new BasicNameValuePair("facebookID",map.get("id")));
+            params.add(new BasicNameValuePair("id",map.get("facebookID")));
             params.add(new BasicNameValuePair("nombre", map.get("nombre")));
             params.add(new BasicNameValuePair("apellido", map.get("apellido")));
             params.add(new BasicNameValuePair("edad", map.get("edad")));
