@@ -11,12 +11,15 @@ package lp4.untref.daparadarse;
         import org.apache.http.util.EntityUtils;
         import android.os.Bundle;
         import android.app.Activity;
+        import android.util.Log;
         import android.widget.ArrayAdapter;
         import android.widget.ListView;
         import javaphpmysql.JSONObject;
         import javaphpmysql.JSONArray;
 
 public class ListadoActivity extends Activity {
+
+    private static final String TAG = "ListadoActivity";
 
     private static final String SERVER_PATH = "http://daparadarse.site88.net/";
 
@@ -64,6 +67,8 @@ public class ListadoActivity extends Activity {
     }
 
     public ArrayList<String> obtDatosJSON(String response){
+
+        Log.i(TAG,response);
         ArrayList<String> listado= new ArrayList<String>();
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -73,7 +78,7 @@ public class ListadoActivity extends Activity {
                 texto = json.getJSONObject(i).getString("nombre") +" - "+
                         json.getJSONObject(i).getString("apellido") +" - "+
                         json.getJSONObject(i).getString("edad") +" - "+
-                        json.getJSONObject(i).getString("modo");
+                        //json.getJSONObject(i).getString("modo");
                 listado.add(texto);
             }
         } catch (Exception e) {
