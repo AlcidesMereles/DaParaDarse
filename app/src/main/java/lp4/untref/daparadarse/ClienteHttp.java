@@ -53,7 +53,7 @@ public class ClienteHttp {
     public String leer() {
         HttpClient cliente = new DefaultHttpClient();
         HttpContext contexto = new BasicHttpContext();
-        HttpGet httpget = new HttpGet(SERVER_PATH + "selectAllJSON.php");
+        HttpGet httpget = new HttpGet(SERVER_PATH + "mostrarTablaUsuarios.php");
         String resultado = null;
         try {
             HttpResponse response = cliente.execute(httpget, contexto);
