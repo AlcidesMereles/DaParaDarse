@@ -2,20 +2,24 @@ package lp4.untref.daparadarse;
 
 import java.util.HashMap;
 import java.util.Map;
-import android.app.ProgressDialog;
+
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+
 import demo.pantallasTinder;
 
 public class MainActivity extends ActionBarActivity {
@@ -24,7 +28,19 @@ public class MainActivity extends ActionBarActivity {
     private UiLifecycleHelper uiHelper;
     private View otherView;
     private static final String TAG = "MainActivity";
-    public Button botonGaleria;
+    private Button botonGaleria;
+    private String nombre, apellido, edad, facebookID, sexo, mujeres, hombres;
+    private String nacimiento,
+            nombreCiudad,
+            nombreProvincia,
+            nombrePais;
+    private Button btnGuardar;
+    private CheckBox interesanMujeres;
+    private CheckBox interesanHombres;
+    EditText fechaDeNacimiento;
+    EditText ciudad;
+    EditText provincia;
+    EditText pais;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +53,18 @@ public class MainActivity extends ActionBarActivity {
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
         botonGaleria = (Button) findViewById(R.id.button);
+        btnGuardar = (Button) findViewById(R.id.btnGuardar);
+        fechaDeNacimiento = (EditText) findViewById(R.id.editTextFechaNacimiento);
+        ciudad = (EditText) findViewById(R.id.editTextCiudad);
+        provincia = (EditText) findViewById(R.id.editTextProvincia);
+        pais = (EditText) findViewById(R.id.editTextPais);
+        interesanMujeres = (CheckBox) findViewById(R.id.checkBoxMujeres);
+        interesanHombres = (CheckBox) findViewById(R.id.checkBoxHombres);
+
 
     }
 
-    public void irAGaleria(View view){
+    public void irAGaleria(View view) {
 
         Intent intent = new Intent(this, pantallasTinder.class);
         startActivity(intent);
@@ -62,14 +86,14 @@ public class MainActivity extends ActionBarActivity {
         // When Session is successfully opened (User logged-in)
         if (state.isOpened()) {
             Log.i(TAG, "Logged in...");
-        // make request to the /me API to get Graph user
+            // make request to the /me API to get Graph user
             Request.newMeRequest(session, new Request.GraphUserCallback() {
                 // callback after Graph API response with user
                 // object
                 @Override
                 public void onCompleted(GraphUser user, Response response) {
                     if (user != null) {
-                        String nombre,apellido,edad,facebookID,sexo;
+
                         // Set view visibility to true
                         otherView.setVisibility(View.VISIBLE);
                         // Set User name
@@ -78,19 +102,57 @@ public class MainActivity extends ActionBarActivity {
                         apellido = user.getLastName();
                         edad = user.getId();//Solo pruebo.
                         facebookID = user.getId();
-                        sexo = user.getProperty("gender").toString().equals("male")?"hombre":"mujer";
-                        Map<String,String> map = new HashMap<String, String>();
-                        map.put("nombre",nombre);
-                        map.put("apellido",apellido);
-                        map.put("edad",edad);
-                        map.put("facebookID",facebookID);
-                        map.put("sexo",sexo);
-                        TareaEnvioDeDatos envioDeDatos = new TareaEnvioDeDatos ();
-                        envioDeDatos.execute(map);
+                        sexo = user.getProperty("gender").toString().equals("male") ? "hombre" : "mujer";
+
+
+                        nacimiento = fechaDeNacimiento.getText().toString();
+                        nombreCiudad = ciudad.getText().toString();
+                        nombreProvincia = provincia.getText().toString();
+                        nombrePais = pais.getText().toString();
+                        if (interesanMujeres.isChecked()) {
+                            mujeres = "1";
+                        } else {
+                            mujeres = "0";
+                        }
+                        if (interesanHombres.isChecked()) {
+                            hombres = "1";
+                        } else {
+                            hombres = "0";
+                        }
+
+                        btnGuardar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //TODO
+                                Map<String, String> map = new HashMap<String, String>();
+                                map.put("nombre", nombre);
+                                map.put("apellido", apellido);
+                                map.put("edad", edad);
+                                map.put("facebookID", facebookID);
+                                map.put("sexo", sexo);
+                                map.put("nacimiento", nacimiento);
+                                map.put("ciudad", nombreCiudad);
+                                map.put("provincia", nombreProvincia);
+                                map.put("pais", nombrePais);
+                                map.put("mujeres", mujeres);
+                                map.put("hombres", hombres);
+
+                                Log.i(TAG, nacimiento);
+                                Log.i(TAG, nombreCiudad);
+                                Log.i(TAG, nombreProvincia);
+                                Log.i(TAG, nombrePais);
+                                Log.i(TAG, mujeres);
+                                Log.i(TAG, hombres);
+
+                                TareaEnvioDeDatos envioDeDatos = new TareaEnvioDeDatos();
+                                envioDeDatos.execute(map);
+                            }
+                        });
+
                     }
                 }
             }).executeAsync();
-        }else if (state.isClosed()) {
+        } else if (state.isClosed()) {
             Log.i(TAG, "Logged out...");
             otherView.setVisibility(View.GONE);
         }
@@ -128,4 +190,6 @@ public class MainActivity extends ActionBarActivity {
         super.onSaveInstanceState(outState);
         uiHelper.onSaveInstanceState(outState);
     }
+
+
 }
