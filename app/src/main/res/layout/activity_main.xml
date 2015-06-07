@@ -28,83 +28,84 @@
             android:textSize="30dp" />
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Fecha de nacimiento"
-            android:id="@+id/textView" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextFechaNacimiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Ciudad"
-            android:id="@+id/textView2" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextCiudad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal" />
 
         <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Provincia"
-            android:id="@+id/textView3" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
+            android:id="@+id/editTextProvincia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextProvincia"
             android:layout_gravity="center_horizontal" />
 
         <TextView
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Pais"
-            android:id="@+id/textView4" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
+            android:id="@+id/editTextPais"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextPais" />
+            android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/textViewMeInteresan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Me interesan:"
-            android:id="@+id/textViewMeInteresan" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mujeres"
             android:id="@+id/checkBoxMujeres"
-            android:checked="false" />
-
-        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hombres"
+            android:checked="false"
+            android:text="Mujeres" />
+
+        <CheckBox
             android:id="@+id/checkBoxHombres"
-            android:checked="false" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="Hombres" />
 
         <Button
+            android:id="@+id/btnGuardar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Guardar"
-            android:id="@+id/btnGuardar"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:text="Guardar" />
+
 
     </LinearLayout>
 
@@ -112,10 +113,17 @@
         android:id="@+id/fb_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#ff5fb9ff"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:padding="5dp"
-        android:background="#ff5fb9ff">
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Ir a tab" />
 
         <com.facebook.widget.LoginButton
             android:id="@+id/authButton"

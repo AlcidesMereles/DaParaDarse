@@ -1,14 +1,11 @@
 package lp4.untref.daparadarse;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import android.os.Bundle;
 import android.content.Intent;
-import android.view.View;
-import android.widget.Button;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,14 +17,19 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
-import demo.pantallasTinder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
+    private static final String TAG = "MainActivity";
+    EditText fechaDeNacimiento;
+    EditText ciudad;
+    EditText provincia;
+    EditText pais;
     // Create, automatically open (if applicable), save, and restore the
     // Active Session in a way that is similar to Android UI lifecycles.
     private UiLifecycleHelper uiHelper;
     private View otherView;
-    private static final String TAG = "MainActivity";
     private Button botonGaleria;
     private String nombre, apellido, edad, facebookID, sexo, mujeres, hombres;
     private String nacimiento,
@@ -37,17 +39,21 @@ public class MainActivity extends ActionBarActivity {
     private Button btnGuardar;
     private CheckBox interesanMujeres;
     private CheckBox interesanHombres;
-    EditText fechaDeNacimiento;
-    EditText ciudad;
-    EditText provincia;
-    EditText pais;
+    // Called when session changes
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state,
+                         Exception exception) {
+            onSessionStateChange(session, state, exception);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Set View that should be visible after log-in invisible initially
-        otherView = (View) findViewById(R.id.other_views);
+        otherView = findViewById(R.id.other_views);
         otherView.setVisibility(View.GONE);
         // To maintain FB Login session
         uiHelper = new UiLifecycleHelper(this, callback);
@@ -61,23 +67,21 @@ public class MainActivity extends ActionBarActivity {
         interesanMujeres = (CheckBox) findViewById(R.id.checkBoxMujeres);
         interesanHombres = (CheckBox) findViewById(R.id.checkBoxHombres);
 
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MainTabSwipe.class));
+            }
+        });
+
 
     }
 
     public void irAGaleria(View view) {
 
-        Intent intent = new Intent(this, pantallasTinder.class);
+        Intent intent = new Intent(MainActivity.this, MainTabSwipe.class);
         startActivity(intent);
     }
-
-    // Called when session changes
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state,
-                         Exception exception) {
-            onSessionStateChange(session, state, exception);
-        }
-    };
 
     // When session is changed, this method is called from callback method
     private void onSessionStateChange(Session session, SessionState state,
