@@ -12,8 +12,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import javaphpmysql.JSONObject;
+import javaphpmysql.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +30,18 @@ public class ClienteHttp {
                 "http://www.daparadarse.site88.net/Android/PutData.php");
         HttpResponse response = null;
         try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("id", map.get("facebookID")));
             params.add(new BasicNameValuePair("nombre", map.get("nombre")));
             params.add(new BasicNameValuePair("apellido", map.get("apellido")));
             params.add(new BasicNameValuePair("edad", map.get("edad")));
             params.add(new BasicNameValuePair("sexo", map.get("sexo")));
+            params.add(new BasicNameValuePair("nacimiento", map.get("nacimiento")));
+            params.add(new BasicNameValuePair("ciudad", map.get("ciudad")));
+            params.add(new BasicNameValuePair("provincia", map.get("provincia")));
+            params.add(new BasicNameValuePair("pais", map.get("pais")));
+            params.add(new BasicNameValuePair("mujeres", map.get("mujeres")));
+            params.add(new BasicNameValuePair("hombres", map.get("hombres")));
             httpPost.setEntity(new UrlEncodedFormEntity(params));
             response = httpClient.execute(httpPost, localContext);
         } catch (Exception e) {
@@ -47,7 +53,7 @@ public class ClienteHttp {
     public String leer() {
         HttpClient cliente = new DefaultHttpClient();
         HttpContext contexto = new BasicHttpContext();
-        HttpGet httpget = new HttpGet(SERVER_PATH + "selectAllJSON.php");
+        HttpGet httpget = new HttpGet(SERVER_PATH + "mostrarTablaUsuarios.php");
         String resultado = null;
         try {
             HttpResponse response = cliente.execute(httpget, contexto);

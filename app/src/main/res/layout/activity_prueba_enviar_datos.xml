@@ -25,6 +25,7 @@
             android:layout_marginLeft="10dip"
             android:gravity="left"
             android:text="Name"
+
             android:textSize="30dp" />
 
         <TextView
@@ -82,6 +83,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Desde"
+            android:id="@+id/textViewDesdeEdad" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Hasta"
+            android:id="@+id/textViewHastaEdad" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Me interesan:"
             android:id="@+id/textViewMeInteresan" />
 
@@ -104,25 +129,9 @@
             android:layout_height="wrap_content"
             android:text="Guardar"
             android:id="@+id/btnGuardar"
-            android:layout_gravity="center_horizontal" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/fb_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:padding="5dp"
-        android:background="#ff5fb9ff">
-
-        <com.facebook.widget.LoginButton
-            android:id="@+id/authButton"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="0dp" />
+             />
+
     </LinearLayout>
 
 </LinearLayout>

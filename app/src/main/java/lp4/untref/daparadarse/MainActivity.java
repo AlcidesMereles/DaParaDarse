@@ -1,13 +1,16 @@
 package lp4.untref.daparadarse;
 
+import java.util.HashMap;
+import java.util.Map;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.facebook.Request;
@@ -17,32 +20,56 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-
-import java.util.ArrayList;
-import java.util.List;
+import demo.pantallasTinder;
 
 public class MainActivity extends ActionBarActivity {
-    private static final String TAG = "MainActivity";
-    public Button botonGaleria;
-    public ProgressDialog miProgressDialog;
     // Create, automatically open (if applicable), save, and restore the
     // Active Session in a way that is similar to Android UI lifecycles.
     private UiLifecycleHelper uiHelper;
     private View otherView;
-    private String facebookID;
-    private String nombre;
-    private String apellido;
-    private String edad;
-    private String sexo;
+    private static final String TAG = "MainActivity";
+    private Button botonGaleria;
+    private String nombre, apellido, edad, facebookID, sexo, mujeres, hombres;
+    private String nacimiento,
+            nombreCiudad,
+            nombreProvincia,
+            nombrePais;
+    private Button btnGuardar;
+    private CheckBox interesanMujeres;
+    private CheckBox interesanHombres;
+    EditText fechaDeNacimiento;
+    EditText ciudad;
+    EditText provincia;
+    EditText pais;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        // Set View that should be visible after log-in invisible initially
+        otherView = (View) findViewById(R.id.other_views);
+        otherView.setVisibility(View.GONE);
+        // To maintain FB Login session
+        uiHelper = new UiLifecycleHelper(this, callback);
+        uiHelper.onCreate(savedInstanceState);
+        botonGaleria = (Button) findViewById(R.id.button);
+        btnGuardar = (Button) findViewById(R.id.btnGuardar);
+        fechaDeNacimiento = (EditText) findViewById(R.id.editTextFechaNacimiento);
+        ciudad = (EditText) findViewById(R.id.editTextCiudad);
+        provincia = (EditText) findViewById(R.id.editTextProvincia);
+        pais = (EditText) findViewById(R.id.editTextPais);
+        interesanMujeres = (CheckBox) findViewById(R.id.checkBoxMujeres);
+        interesanHombres = (CheckBox) findViewById(R.id.checkBoxHombres);
+
+
+    }
+
+    public void irAGaleria(View view) {
+
+        Intent intent = new Intent(this, pantallasTinder.class);
+        startActivity(intent);
+    }
+
     // Called when session changes
     private Session.StatusCallback callback = new Session.StatusCallback() {
         @Override
@@ -52,50 +79,21 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        // Set View that should be visible after log-in invisible initially
-        otherView = findViewById(R.id.other_views);
-        otherView.setVisibility(View.GONE);
-        // To maintain FB Login session
-        uiHelper = new UiLifecycleHelper(this, callback);
-        uiHelper.onCreate(savedInstanceState);
-        botonGaleria = (Button) findViewById(R.id.button);
-        findViewById(R.id.botonPantalla1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                irAGaleria();
-                //startActivity(new Intent(MainActivity.this, pantallasTinder.class));
-            }
-        });
-
-    }
-
-    public void irAGaleria(){
-
-        Intent intent;
-        intent = new Intent(MainActivity.this, demo.pantallasTinder.class);
-        startActivity(intent);
-    }
-
     // When session is changed, this method is called from callback method
     private void onSessionStateChange(Session session, SessionState state,
                                       Exception exception) {
         final TextView name = (TextView) findViewById(R.id.name);
-        final TextView gender = (TextView) findViewById(R.id.gender);
         // When Session is successfully opened (User logged-in)
         if (state.isOpened()) {
             Log.i(TAG, "Logged in...");
             // make request to the /me API to get Graph user
             Request.newMeRequest(session, new Request.GraphUserCallback() {
-
                 // callback after Graph API response with user
                 // object
                 @Override
                 public void onCompleted(GraphUser user, Response response) {
                     if (user != null) {
+
                         // Set view visibility to true
                         otherView.setVisibility(View.VISIBLE);
                         // Set User name
@@ -104,25 +102,53 @@ public class MainActivity extends ActionBarActivity {
                         apellido = user.getLastName();
                         edad = user.getId();//Solo pruebo.
                         facebookID = user.getId();
-                        sexo = user.getProperty("gender").toString();
-                        gender.setText("Your gender:" + user.getProperty("gender").toString());
+                        sexo = user.getProperty("gender").toString().equals("male") ? "hombre" : "mujer";
 
-                        Thread nt = new Thread() {
+
+                        nacimiento = fechaDeNacimiento.getText().toString();
+                        nombreCiudad = ciudad.getText().toString();
+                        nombreProvincia = provincia.getText().toString();
+                        nombrePais = pais.getText().toString();
+                        if (interesanMujeres.isChecked()) {
+                            mujeres = "1";
+                        } else {
+                            mujeres = "0";
+                        }
+                        if (interesanHombres.isChecked()) {
+                            hombres = "1";
+                        } else {
+                            hombres = "0";
+                        }
+
+                        btnGuardar.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void run() {
+                            public void onClick(View v) {
+                                //TODO
+                                Map<String, String> map = new HashMap<String, String>();
+                                map.put("nombre", nombre);
+                                map.put("apellido", apellido);
+                                map.put("edad", edad);
+                                map.put("facebookID", facebookID);
+                                map.put("sexo", sexo);
+                                map.put("nacimiento", nacimiento);
+                                map.put("ciudad", nombreCiudad);
+                                map.put("provincia", nombreProvincia);
+                                map.put("pais", nombrePais);
+                                map.put("mujeres", mujeres);
+                                map.put("hombres", hombres);
 
-                                try {
-                                    final String res;
+                                Log.i(TAG, nacimiento);
+                                Log.i(TAG, nombreCiudad);
+                                Log.i(TAG, nombreProvincia);
+                                Log.i(TAG, nombrePais);
+                                Log.i(TAG, mujeres);
+                                Log.i(TAG, hombres);
 
-                                    res = enviarPost(facebookID,nombre,apellido,edad,sexo);
-
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                                TareaEnvioDeDatos envioDeDatos = new TareaEnvioDeDatos();
+                                envioDeDatos.execute(map);
                             }
-                        };
-                        nt.start();
+                        });
+
                     }
                 }
             }).executeAsync();
@@ -131,6 +157,7 @@ public class MainActivity extends ActionBarActivity {
             otherView.setVisibility(View.GONE);
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -164,24 +191,5 @@ public class MainActivity extends ActionBarActivity {
         uiHelper.onSaveInstanceState(outState);
     }
 
-    public String enviarPost(String facebookID,String nombre, String apellido, String edad,String sexo) {
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpContext localContext = new BasicHttpContext();
-        HttpPost httpPost = new HttpPost(
-                "http://www.daparadarse.site88.net/Android/PutData.php");
-        HttpResponse response = null;
-        try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>(3);
-            params.add(new BasicNameValuePair("id", facebookID));
-            params.add(new BasicNameValuePair("nombre", nombre));
-            params.add(new BasicNameValuePair("apellido", apellido));
-            params.add(new BasicNameValuePair("edad", edad));
-            params.add(new BasicNameValuePair("sexo", sexo));
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
-            response = httpClient.execute(httpPost, localContext);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return response.toString();
-    }
+
 }

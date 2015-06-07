@@ -6,5 +6,6 @@
     <string name="title_activity_listado">ListadoActivity</string>
 
     <string name="app_id">1556684717925333</string>
+    <string name="title_activity_prueba_enviar_datos">PruebaEnviarDatos</string>
 
 </resources>

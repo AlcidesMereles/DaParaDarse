@@ -1,11 +1,3 @@
-/**
- * AndTinder v0.1 for Android
- *
- * @Author: Enrique Lopez Manas <eenriquelopez@gmail.com>
- * http://www.lopez-manas.com
-
- **/
-
 package demo;
 
 import android.app.Activity;
@@ -13,12 +5,10 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
-
-import andtinder.model.CardModel;
-import andtinder.view.CardContainer;
-import andtinder.view.SimpleCardStackAdapter;
+import com.andtinder.model.CardModel;
+import com.andtinder.view.CardContainer;
+import com.andtinder.view.SimpleCardStackAdapter;
 import lp4.untref.daparadarse.R;
-
 
 public class pantallasTinder extends Activity {
 
@@ -73,19 +63,19 @@ public class pantallasTinder extends Activity {
         cardModel.setOnClickListener(new CardModel.OnClickListener() {
             @Override
             public void OnClickListener() {
-                Log.i("Swipeable Cards", "I am pressing the card");
+                Log.i("Swipeable Cards","I am pressing the card");
             }
         });
 
         cardModel.setOnCardDimissedListener(new CardModel.OnCardDimissedListener() {
             @Override
             public void onLike() {
-                Log.i("Swipeable Cards", "I like the card");
+                Log.i("Swipeable Cards","I like the card");
             }
 
             @Override
             public void onDislike() {
-                Log.i("Swipeable Cards", "I dislike the card");
+                Log.i("Swipeable Cards","I dislike the card");
             }
         });
 
