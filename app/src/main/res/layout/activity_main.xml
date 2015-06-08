@@ -37,6 +37,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="32dp"
+            android:textSize="14dp"
             android:inputType="number"
             android:id="@+id/editTextEdad"
             android:layout_gravity="center_horizontal" />
@@ -51,6 +52,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="32dp"
+            android:textSize="14dp"
+            android:inputType="textPersonName"
+            android:capitalize="characters"
             android:id="@+id/editTextCiudad"
             android:layout_gravity="center_horizontal" />
 
@@ -64,7 +68,10 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="32dp"
+            android:textSize="14dp"
             android:id="@+id/editTextProvincia"
+            android:inputType="textPersonName"
+            android:capitalize="words"
             android:layout_gravity="center_horizontal" />
 
         <TextView
@@ -77,6 +84,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="32dp"
+            android:textSize="14dp"
+            android:inputType="textPersonName"
             android:id="@+id/editTextPais" />
 
         <TextView
@@ -128,14 +137,14 @@
 
         <EditText
             android:layout_width="61dp"
-            android:layout_height="28dp"
+            android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
             android:id="@+id/editTextEdadDesde" />
 
         <EditText
             android:layout_width="61dp"
-            android:layout_height="28dp"
+            android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
             android:id="@+id/editTextEdaHasta"
@@ -148,7 +157,7 @@
             android:text="Guardar"
             android:id="@+id/btnGuardar"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp" />
+            android:layout_marginTop="30dp" />
 
     </LinearLayout>
 

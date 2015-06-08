@@ -12,6 +12,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+
 import javaphpmysql.JSONObject;
 import javaphpmysql.JSONArray;
 
@@ -42,6 +43,8 @@ public class ClienteHttp {
             params.add(new BasicNameValuePair("pais", map.get("pais")));
             params.add(new BasicNameValuePair("mujeres", map.get("mujeres")));
             params.add(new BasicNameValuePair("hombres", map.get("hombres")));
+            params.add(new BasicNameValuePair("edadDesde", map.get("rangoDeEdadDesde")));
+            params.add(new BasicNameValuePair("edadHasta", map.get("rangoDeEdadHasta")));
             httpPost.setEntity(new UrlEncodedFormEntity(params));
             response = httpClient.execute(httpPost, localContext);
         } catch (Exception e) {
@@ -50,10 +53,10 @@ public class ClienteHttp {
         return response.toString();
     }
 
-    public String leer() {
+    public String leer(String idUsuarioFacebook) {
         HttpClient cliente = new DefaultHttpClient();
         HttpContext contexto = new BasicHttpContext();
-        HttpGet httpget = new HttpGet(SERVER_PATH + "mostrarTablaUsuarios.php");
+        HttpGet httpget = new HttpGet(SERVER_PATH + "/Android/pruebaCriterio.php?id=" + idUsuarioFacebook);
         String resultado = null;
         try {
             HttpResponse response = cliente.execute(httpget, contexto);
@@ -74,7 +77,11 @@ public class ClienteHttp {
             for (int i = 0; i < json.length(); i++) {
                 texto = json.getJSONObject(i).getString("nombre") + " - " +
                         json.getJSONObject(i).getString("apellido") + " - " +
-                        json.getJSONObject(i).getString("edad");
+                        json.getJSONObject(i).getString("edad") + " - " +
+                        json.getJSONObject(i).getString("sexo") + " - " +
+                        json.getJSONObject(i).getString("ciudad") + " - " +
+                        json.getJSONObject(i).getString("provincia") + " - " +
+                        json.getJSONObject(i).getString("pais");
                 listado.add(texto);
             }
         } catch (Exception e) {

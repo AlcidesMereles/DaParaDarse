@@ -1,6 +1,8 @@
 package lp4.untref.daparadarse;
 
         import java.util.ArrayList;
+
+        import android.content.Intent;
         import android.os.AsyncTask;
         import android.os.Bundle;
         import android.app.Activity;
@@ -9,11 +11,14 @@ package lp4.untref.daparadarse;
 
 public class ListadoActivity extends Activity {
 
+    private String facebookUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado);
+        Intent intent = getIntent();
+        facebookUserID = intent.getExtras().getString("facebookUserID");
         TareaObtencionDeDatos obtencionDatos = new TareaObtencionDeDatos();
         obtencionDatos.execute();
     }
@@ -26,11 +31,11 @@ public class ListadoActivity extends Activity {
     }
 
 
-    private class TareaObtencionDeDatos extends AsyncTask<Void,Void,ArrayList<String>> {
+    private class TareaObtencionDeDatos extends AsyncTask<String,Void,ArrayList<String>> {
         @Override
-        protected ArrayList<String> doInBackground(Void...params) {
+        protected ArrayList<String> doInBackground(String...params) {
             ClienteHttp cliente = new ClienteHttp();
-            return cliente.obtDatosJSON(cliente.leer());
+            return cliente.obtDatosJSON(cliente.leer(facebookUserID));
         }
 
         @Override

@@ -154,6 +154,9 @@ public class MainActivity extends ActionBarActivity {
                                     map.put("hombres", hombres);
                                     TareaEnvioDeDatos envioDeDatos = new TareaEnvioDeDatos();
                                     envioDeDatos.execute(map);
+                                    Intent pasoDelIdDeFacebook = new Intent(MainActivity.this,ListadoActivity.class);
+                                    pasoDelIdDeFacebook.putExtra("facebookUserID", facebookID);
+                                    startActivity(pasoDelIdDeFacebook);
                                 }
 
                                 //TODO borrar lineas despues de probar
