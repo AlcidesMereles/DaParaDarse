@@ -8,4 +8,7 @@
     <string name="app_id">1556684717925333</string>
     <string name="title_activity_prueba_enviar_datos">PruebaEnviarDatos</string>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

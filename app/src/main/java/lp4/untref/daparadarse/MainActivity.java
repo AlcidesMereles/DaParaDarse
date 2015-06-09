@@ -1,5 +1,7 @@
 package lp4.untref.daparadarse;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -150,6 +152,19 @@ public class MainActivity extends ActionBarActivity {
 
                                 TareaEnvioDeDatos envioDeDatos = new TareaEnvioDeDatos();
                                 envioDeDatos.execute(map);
+
+                                //Paso 1: Obtener la instancia del administrador de fragmentos
+                                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                                //Paso 2: Crear una nueva transacción
+                                FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                                //Paso 3: Crear un nuevo fragmento y añadirlo
+                                LoginFragment fragment = new LoginFragment();
+                                transaction.add(R.id.contenedor, fragment);
+
+                                //Paso 4: Confirmar el cambio
+                                transaction.commit();
                             }
                         });
 
@@ -194,6 +209,5 @@ public class MainActivity extends ActionBarActivity {
         super.onSaveInstanceState(outState);
         uiHelper.onSaveInstanceState(outState);
     }
-
 
 }
