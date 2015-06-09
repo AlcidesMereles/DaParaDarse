@@ -3,7 +3,6 @@
  *
  * @Author: Enrique López Mañas <eenriquelopez@gmail.com>
  * http://www.lopez-manas.com
- * <p/>
  *
  * TAndTinder is a native library for Android that provide a
  * Tinder card like effect. A card can be constructed using an
@@ -12,13 +11,11 @@
  *
  * AndTinder is compatible with API Level 13 and upwards
  *
- * <p/>
- * AndTinder is compatible with API Level 13 and upwards
  * @copyright: Enrique López Mañas
  * @license: Apache License 2.0
  */
 
-package com.andtinder;
+package andtinder;
 
 public class Utils {
 

@@ -1,14 +1,13 @@
 package lp4.untref.daparadarse;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
-import android.view.View;
-import android.widget.Button;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,9 +20,15 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
-import demo.pantallasTinder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
+    private static final String TAG = "MainActivity";
+    EditText fechaDeNacimiento;
+    EditText ciudad;
+    EditText provincia;
+    EditText pais;
     // Create, automatically open (if applicable), save, and restore the
     // Active Session in a way that is similar to Android UI lifecycles.
     private UiLifecycleHelper uiHelper;
@@ -38,12 +43,10 @@ public class MainActivity extends ActionBarActivity {
     private Button btnGuardar;
     private CheckBox interesanMujeres;
     private CheckBox interesanHombres;
-    EditText edadText;
+    EditText fechaDeNacimiento;
     EditText ciudad;
     EditText provincia;
     EditText pais;
-    TextView rangoDeEdadDesde;
-    TextView rangoDeEdadHasta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
         mujeres = "0";
         hombres = "0";
         // Set View that should be visible after log-in invisible initially
-        otherView = (View) findViewById(R.id.other_views);
+        otherView = findViewById(R.id.other_views);
         otherView.setVisibility(View.GONE);
         rangoDeEdadDesde = (EditText) findViewById(R.id.editTextEdadDesde);
         rangoDeEdadHasta = (EditText) findViewById(R.id.editTextEdaHasta);
@@ -68,12 +71,19 @@ public class MainActivity extends ActionBarActivity {
         interesanMujeres = (CheckBox) findViewById(R.id.checkBoxMujeres);
         interesanHombres = (CheckBox) findViewById(R.id.checkBoxHombres);
 
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MainTabSwipe.class));
+            }
+        });
+
 
     }
 
     public void irAGaleria(View view) {
 
-        Intent intent = new Intent(this, pantallasTinder.class);
+        Intent intent = new Intent(MainActivity.this, MainTabSwipe.class);
         startActivity(intent);
     }
 
@@ -101,14 +111,32 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onCompleted(GraphUser user, Response response) {
                     if (user != null) {
+
                         // Set view visibility to true
                         otherView.setVisibility(View.VISIBLE);
                         // Set User name
                         name.setText("Bienvenido " + user.getName());
                         nombre = user.getFirstName();
                         apellido = user.getLastName();
+                        edad = user.getId();//Solo pruebo.
                         facebookID = user.getId();
                         sexo = user.getProperty("gender").toString().equals("male") ? "hombre" : "mujer";
+
+
+                        nacimiento = fechaDeNacimiento.getText().toString();
+                        nombreCiudad = ciudad.getText().toString();
+                        nombreProvincia = provincia.getText().toString();
+                        nombrePais = pais.getText().toString();
+                        if (interesanMujeres.isChecked()) {
+                            mujeres = "1";
+                        } else {
+                            mujeres = "0";
+                        }
+                        if (interesanHombres.isChecked()) {
+                            hombres = "1";
+                        } else {
+                            hombres = "0";
+                        }
 
                         btnGuardar.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -167,7 +195,21 @@ public class MainActivity extends ActionBarActivity {
                                 Log.i(TAG, mujeres);
                                 Log.i(TAG, hombres);
 
+                                TareaEnvioDeDatos envioDeDatos = new TareaEnvioDeDatos();
+                                envioDeDatos.execute(map);
 
+                                //Paso 1: Obtener la instancia del administrador de fragmentos
+                                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                                //Paso 2: Crear una nueva transacción
+                                FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                                //Paso 3: Crear un nuevo fragmento y añadirlo
+                                LoginFragment fragment = new LoginFragment();
+                                transaction.add(R.id.contenedor, fragment);
+
+                                //Paso 4: Confirmar el cambio
+                                transaction.commit();
                             }
                         });
 
@@ -213,16 +255,5 @@ public class MainActivity extends ActionBarActivity {
         uiHelper.onSaveInstanceState(outState);
     }
 
-    //TODO Si se puede hacer el ingreso de numeros sin este metodo,borrarlo
-    private boolean sonTodosEnteros() {
-        try {
-            Integer.parseInt(rangoDeEdadDesde.getText().toString());
-            Integer.parseInt(rangoDeEdadHasta.getText().toString());
-            Integer.parseInt(edadText.getText().toString());
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
 
 }

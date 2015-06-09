@@ -2,28 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
-    android:id="@+id/contenedor"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/add_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Añadir Fragmento" />
+    tools:context="lp4.untref.daparadarse.LoginFragment">
 
     <LinearLayout
-        android:id="@+id/fb_view"
+        android:id="@+id/other_views"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ff5fb9ff"
-        android:gravity="bottom"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:padding="5dp">
 
@@ -40,13 +26,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Fecha de nacimiento"
-            android:id="@+id/textView" />
+            android:text="Edad"
+            android:id="@+id/textViewEdad" />
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextFechaNacimiento"
+            android:layout_height="32dp"
+            android:textSize="14dp"
+            android:inputType="number"
+            android:id="@+id/editTextEdad"
             android:layout_gravity="center_horizontal" />
 
         <TextView
@@ -58,7 +46,10 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
+            android:textSize="14dp"
+            android:inputType="textPersonName"
+            android:capitalize="characters"
             android:id="@+id/editTextCiudad"
             android:layout_gravity="center_horizontal" />
 
@@ -71,8 +62,11 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
+            android:textSize="14dp"
             android:id="@+id/editTextProvincia"
+            android:inputType="textPersonName"
+            android:capitalize="words"
             android:layout_gravity="center_horizontal" />
 
         <TextView
@@ -84,7 +78,9 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
+            android:textSize="14dp"
+            android:inputType="textPersonName"
             android:id="@+id/editTextPais" />
 
         <TextView
@@ -106,33 +102,57 @@
             android:layout_height="wrap_content"
             android:text="Hombres"
             android:id="@+id/checkBoxHombres"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_gravity="right"
+            android:layout_marginTop="-30dp"
+            android:layout_marginRight="7dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Rango de edad"
+            android:id="@+id/textViewRangoDeEdad" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Desde"
+            android:id="@+id/textViewEdadDesde" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Hasta"
+            android:id="@+id/textViewEdadHasta"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-22dp" />
+
+        <EditText
+            android:layout_width="61dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editTextEdadDesde" />
+
+        <EditText
+            android:layout_width="61dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editTextEdaHasta"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-28dp" />
 
         <Button
-            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Guardar"
             android:id="@+id/btnGuardar"
-            android:layout_gravity="center_horizontal" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/fb_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:padding="5dp"
-        android:background="#ff5fb9ff">
-
-        <com.facebook.widget.LoginButton
-            android:id="@+id/authButton"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="0dp" />
+            android:layout_marginTop="30dp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -3,7 +3,6 @@
  *
  * @Author: Enrique López Mañas <eenriquelopez@gmail.com>
  * http://www.lopez-manas.com
- * <p/>
  *
  * TAndTinder is a native library for Android that provide a
  * Tinder card like effect. A card can be constructed using an
@@ -12,20 +11,29 @@
  *
  * AndTinder is compatible with API Level 13 and upwards
  *
- * <p/>
- * AndTinder is compatible with API Level 13 and upwards
  * @copyright: Enrique López Mañas
  * @license: Apache License 2.0
  */
 
-package com.andtinder;
+package andtinder.model;
 
-public class Utils {
+public class Likes {
+	 public enum Like {
+	        None(0), Liked(1), Disliked(2);
 
-	public static float functionNormalize(int max, int min, int value) {
-		int intermediateValue = max - min;
-		value -= intermediateValue;
-		float var = Math.abs((float)value/(float)intermediateValue);
-		return Math.abs((float)value/(float)intermediateValue);
-	}
+	        public final int value;
+
+	        private Like(int value) {
+	            this.value = value;
+	        }
+
+	        public static Like fromValue(int value) {
+	            for (Like style : Like.values()) {
+	                if (style.value == value) {
+	                    return style;
+	                }
+	            }
+	            return null;
+	        }
+	    }
 }
