@@ -17,10 +17,10 @@ public class ListadoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado);
-        Intent intent = getIntent();
-        facebookUserID = intent.getExtras().getString("facebookUserID");
-        TareaObtencionDeDatos obtencionDatos = new TareaObtencionDeDatos();
-        obtencionDatos.execute();
+//        Intent intent = getIntent();
+//        facebookUserID = intent.getExtras().getString("facebookUserID");
+//        TareaObtencionDeDatos obtencionDatos = new TareaObtencionDeDatos();
+//        obtencionDatos.execute();
     }
 
     public void cargaListado(ArrayList<String> datos){
