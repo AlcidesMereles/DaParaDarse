@@ -12,6 +12,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -35,11 +37,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        // To maintain FB Login session
-        uiHelper = new UiLifecycleHelper(this, callback);
-        uiHelper.onCreate(savedInstanceState);
-
-        loginFragment = new LoginFragment();
         Bundle argumentos = new Bundle();
 //        argumentos.putString("nombre", nombre);
 //        argumentos.putString("apellido", apellido);
@@ -80,108 +77,6 @@ startActivity(new Intent(MainActivity.this, demo.pantallasTinder.class));
  }
  **/
 
-    }
-
-    // Called when session changes
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state,
-                         Exception exception) {
-            onSessionStateChange(session, state, exception);
-        }
-    };
-
-    // When session is changed, this method is called from callback method
-    private void onSessionStateChange(Session session, SessionState state,
-                                      Exception exception) {
-
-        // When Session is successfully opened (User logged-in)
-        if (state.isOpened()) {
-            LoginFragment fragmentActual = (LoginFragment) getSupportFragmentManager().getFragments().get(0);
-            fragmentActual.setViewVisible(View.VISIBLE);
-            Log.i(TAG, "Logged in...");
-            // make request to the /me API to get Graph user
-            Request.newMeRequest(session, new Request.GraphUserCallback() {
-                // callback after Graph API response with user
-// object
-                @Override
-                public void onCompleted(GraphUser user, Response response) {
-                    //otherView.setVisibility(View.VISIBLE);
-                    if (user != null) {
-                        nombre = user.getFirstName();
-                        apellido = user.getLastName();
-                        facebookID = user.getId();
-                        sexo = user.getProperty("gender").toString()
-                                .equals("male") ? "hombre" : "mujer";
-                        if (1 == 1) {
-
-                        }
-////                            LoginFragment fragment = new LoginFragment();
-////                            Bundle args = new Bundle();
-////                            args.putString("nombre", nombre);
-////                            args.putString("apellido", apellido);
-////                            args.putString("facebookID", facebookID);
-////                            args.putString("sexo", sexo);
-////                            fragment.setArguments(args);
-////                            transaction.add(R.id.contenedor,
-////                                    fragment, "lg_fragment");
-////
-////                            // Paso 4: Confirmar el cambio
-////                            transaction.commit();
-////
-////                            // Set User name
-////                            nombreCompleto = user.getName();
-////
-////
-//////                                        }
-//////
-//////
-//////
-////                                    }
-////                                });
-//                        }
-////                    }
-                    }
-                }
-            }).executeAsync();
-
-        } else if (state.isClosed()) {
-            LoginFragment fragmentActual = (LoginFragment) getSupportFragmentManager().getFragments().get(0);
-            fragmentActual.setViewVisible(View.INVISIBLE);
-            Log.i(TAG, "Logged out...");
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        uiHelper.onActivityResult(requestCode, resultCode, data);
-        Log.i(TAG, "OnActivityResult...");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        uiHelper.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        uiHelper.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        uiHelper.onDestroy();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        uiHelper.onSaveInstanceState(outState);
     }
 
 
@@ -232,7 +127,8 @@ startActivity(new Intent(MainActivity.this, demo.pantallasTinder.class));
         public Fragment getItem(int arg0) {
             switch (arg0) {
                 case 0:
-                    return loginFragment;
+
+                    return new LoginFragment();
                 case 1:
                     return new Fragment_Elegir();
                 case 2:
