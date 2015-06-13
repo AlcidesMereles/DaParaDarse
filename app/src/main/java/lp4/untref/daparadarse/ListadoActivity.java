@@ -1,13 +1,13 @@
 package lp4.untref.daparadarse;
 
-        import java.util.ArrayList;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-        import android.content.Intent;
-        import android.os.AsyncTask;
-        import android.os.Bundle;
-        import android.app.Activity;
-        import android.widget.ArrayAdapter;
-        import android.widget.ListView;
+import java.util.ArrayList;
 
 public class ListadoActivity extends Activity {
 

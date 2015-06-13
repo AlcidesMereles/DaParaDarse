@@ -10,10 +10,12 @@ import android.view.ViewGroup;
  * Created by Spider on 07/06/2015.
  */
 public class Fragment_Chats extends Fragment {
-    View rootView;
 
+    View rootView;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fm_chats, container, false);
         return rootView;
     }
+
+
 }
