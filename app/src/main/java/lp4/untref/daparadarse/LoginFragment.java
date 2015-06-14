@@ -126,7 +126,7 @@ public class LoginFragment extends Fragment {
                                 nombreCiudad = ciudad.getText().toString();
                                 nombreProvincia = provincia.getText().toString();
                                 nombrePais = pais.getText().toString();
-                                //TODO Agregar la informacion que falta
+                                //TODO: Agregar la informacion que falta
                                 Map<String, String> map = new HashMap<String, String>();
                                 map.put("nombre", nombre);
                                 map.put("apellido", apellido);
@@ -138,7 +138,7 @@ public class LoginFragment extends Fragment {
                                 map.put("pais", pais.getText().toString());
                                 map.put("rangoDeEdadDesde", rangoDeEdadDesde.getText().toString());
                                 map.put("rangoDeEdadHasta", rangoDeEdadHasta.getText().toString());
-                                //TODO Refactorizar codigo.
+                                //TODO: Refactorizar codigo.
                                 if (map.containsValue("") || (!interesanMujeres.isChecked() && !interesanHombres.isChecked())) {
                                     Toast.makeText(getActivity(), "Complete todos los campos por favor.", Toast.LENGTH_SHORT).show();
                                     // } else if (!sonTodosEnteros()) {

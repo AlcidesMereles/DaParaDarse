@@ -93,6 +93,7 @@ public class ClienteHttp {
         return listado;
     }
 
+    //Metodo aun no usado.
     public boolean existeId(String id) {
 
         new ComprobarExistenciaId().execute(id);
@@ -100,6 +101,7 @@ public class ClienteHttp {
         return true;
     }
 
+    //Clase aun no usada.
     private class ComprobarExistenciaId extends AsyncTask<String, Void, String> {
 
         @Override
