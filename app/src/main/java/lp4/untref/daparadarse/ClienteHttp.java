@@ -1,5 +1,8 @@
 package lp4.untref.daparadarse;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -21,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ClienteHttp {
-
+    private boolean existeId;
     private static final String SERVER_PATH = "http://daparadarse.site88.net/";
 
     public String enviarPost(Map<String, String> map) {
@@ -88,5 +91,38 @@ public class ClienteHttp {
             e.printStackTrace();
         }
         return listado;
+    }
+
+    public boolean existeId(String id) {
+
+        new ComprobarExistenciaId().execute(id);
+
+        return true;
+    }
+
+    private class ComprobarExistenciaId extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            HttpClient cliente = new DefaultHttpClient();
+            HttpContext contexto = new BasicHttpContext();
+            HttpGet httpget = new HttpGet(SERVER_PATH + "/Android/comprobarExistenciaId.php?id=" + params[0]);
+            String resultado = null;
+            try {
+                HttpResponse response = cliente.execute(httpget, contexto);
+                HttpEntity entity = response.getEntity();
+                resultado = EntityUtils.toString(entity, "UTF-8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Log.i("Resulado de si existe", resultado);
+            return resultado;
+        }
+
+        @Override
+        protected void onPostExecute(String resultado) {
+            existeId = !resultado.equals("0");
+        }
     }
 }
