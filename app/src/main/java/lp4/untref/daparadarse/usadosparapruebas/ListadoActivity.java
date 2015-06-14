@@ -1,4 +1,4 @@
-package lp4.untref.daparadarse;
+package lp4.untref.daparadarse.usadosparapruebas;
 
         import java.util.ArrayList;
 
@@ -8,6 +8,9 @@ package lp4.untref.daparadarse;
         import android.app.Activity;
         import android.widget.ArrayAdapter;
         import android.widget.ListView;
+
+        import lp4.untref.daparadarse.ClienteHttp;
+        import lp4.untref.daparadarse.R;
 
 public class ListadoActivity extends Activity {
 

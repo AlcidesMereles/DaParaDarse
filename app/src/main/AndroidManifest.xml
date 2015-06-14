@@ -29,7 +29,7 @@
             android:value="@string/app_id" />
 
         <activity
-            android:name=".ListadoActivity"
+            android:name=".usadosparapruebas.ListadoActivity"
             android:label="@string/app_name"></activity>
         <activity
             android:name="demo.pantallasTinder"
