@@ -1,4 +1,4 @@
-package lp4.untref.daparadarse.usadosparapruebas;
+package usadosparapruebas;
 
 import android.app.Activity;
 import android.os.AsyncTask;

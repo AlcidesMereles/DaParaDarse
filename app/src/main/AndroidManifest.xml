@@ -29,10 +29,13 @@
             android:value="@string/app_id" />
 
         <activity
-            android:name=".usadosparapruebas.ListadoActivity"
+            android:name="usadosparapruebas.ListadoActivity"
             android:label="@string/app_name"></activity>
+        <!--<activity-->
+            <!--android:name="demo.pantallasTinder"-->
+            <!--android:label="@string/app_name"></activity>-->
         <activity
-            android:name="demo.pantallasTinder"
+            android:name="lp4.untref.daparadarse.subirFotoServidor"
             android:label="@string/app_name"></activity>
 
 

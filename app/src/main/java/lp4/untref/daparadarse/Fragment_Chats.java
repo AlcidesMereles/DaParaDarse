@@ -23,7 +23,7 @@ public class Fragment_Chats extends Fragment {
         super.onAttach(activity);
 
         // Nos aseguramos de que la actividad contenedora haya implementado la
-        // interfaz de retrollamada. Si no, lanzamos una excepción
+        // interfaz de retrollamada. Si no, lanzamos una excepciÃ³n
         try {
             mCallback = (OnHeadlineSelectedListener) activity;
         } catch (ClassCastException e) {
