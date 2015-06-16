@@ -67,6 +67,7 @@ public class Fragment_Elegir extends Fragment {
         SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
 
         adapter.add(new CardModel("Title1", "Description goes here", imagen));
+        //TODO: Descomentar al terminar las pruebas
 //        adapter.add(new CardModel("Title2", "Description goes here", r.getDrawable(R.mipmap.picture2)));
 //        adapter.add(new CardModel("Title3", "Description goes here", r.getDrawable(R.mipmap.picture3)));
 //        adapter.add(new CardModel("Title4", "Description goes here", r.getDrawable(R.mipmap.picture1)));
