@@ -93,6 +93,15 @@ public class ClienteHttp {
         return listado;
     }
 
+    public JSONArray obtenerJSON(String idUsuarioFacebook) {
+        String res = leer(idUsuarioFacebook);
+        JSONObject jObject = new JSONObject(res);
+        JSONArray jArray = jObject.getJSONArray("usuarios");
+        return jArray;
+    }
+
+    //TODO: Borrar si en un futuro no se llega a usar
+    //Metodo aun no usado.
     public boolean existeId(String id) {
 
         new ComprobarExistenciaId().execute(id);
@@ -100,6 +109,8 @@ public class ClienteHttp {
         return true;
     }
 
+    //TODO: Borrar si en un futuro no se llega a usar
+    //Clase aun no usada.
     private class ComprobarExistenciaId extends AsyncTask<String, Void, String> {
 
         @Override

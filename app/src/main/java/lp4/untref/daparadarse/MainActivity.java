@@ -1,6 +1,5 @@
 package lp4.untref.daparadarse;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,45 +8,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
 
 /**
  * Created by Spider on 07/06/2015.
  */
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener, Fragment_Perfil.OnHeadlineSelectedListener {
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener {
     private ViewPager mViewPager;
-    private String nombre, apellido, edad, facebookID, sexo, mujeres, hombres, ciudad, provincia, pais;
-    private LoginFragment loginFragment;
-    private static final String TAG = "MainActivity";
-    private UiLifecycleHelper uiHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
-        Bundle argumentos = new Bundle();
-//        argumentos.putString("nombre", nombre);
-//        argumentos.putString("apellido", apellido);
-//        argumentos.putString("edad", edad);
-//        argumentos.putString("sexo", sexo);
-//        argumentos.putString("ciudad", ciudad);
-//        argumentos.putString("provincia", provincia);
-//        argumentos.putString("pais", pais);
-//        argumentos.putString("mujeres", mujeres);
-//        argumentos.putString("facebookID", facebookID);
-//        loginFragment.setArguments(argumentos);
 
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -66,16 +38,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         tab = actionBar.newTab().setText("Chats").setTabListener(this);
         actionBar.addTab(tab);
-
-/**
- if(actionBar.getTabCount()==1){
- findViewById(R.id.pager).setOnClickListener(new View.OnClickListener() {
-@Override public void onClick(View v) {
-startActivity(new Intent(MainActivity.this, demo.pantallasTinder.class));
-}
-});
- }
- **/
 
     }
 
@@ -104,17 +66,11 @@ startActivity(new Intent(MainActivity.this, demo.pantallasTinder.class));
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-//        Fragment fragment = getSupportFragmentManager().getFragments().get(0);
-//        fragmentTransaction.hide(fragment);
+
     }
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-    }
-
-    @Override
-    public void onArticleSelected(int position) {
 
     }
 
