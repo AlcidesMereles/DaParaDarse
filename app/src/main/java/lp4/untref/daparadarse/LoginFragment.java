@@ -137,7 +137,6 @@ public class LoginFragment extends Fragment {
                 @Override
                 public void onCompleted(GraphUser user, Response response) {
                     if (user != null) {
-                        mIsetListener.OnSetId(user.getId());
                         // Set view visibility to true
                         otherView.setVisibility(View.VISIBLE);
                         // Set User name
@@ -187,6 +186,8 @@ public class LoginFragment extends Fragment {
                                     map.put("hombres", hombres);
                                     TareaEnvioDeDatos envioDeDatos = new TareaEnvioDeDatos();
                                     envioDeDatos.execute(map);
+                                    mIsetListener.OnSetId(facebookID);
+
                                 }
                             }
                         });

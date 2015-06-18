@@ -10,29 +10,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ViewGroup;
 
-//SINUSAR
-import java.util.List;
-
-import usadosparapruebas.FirstPageFragmentListener;
-
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener, LoginFragment.OnSetIdListener {
     private ViewPager mViewPager;
 
     FragmentManager fm;
-    //SINUSAR
-    FragmentTransaction ft;
-    public Fragment mFragmentAtPos0;
+    public Fragment miFragment;
     String facebookID;
 
-
-    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
-        fm = getSupportFragmentManager();
 
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -40,6 +29,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         mViewPager.setOnPageChangeListener(this);
 
+        ActionBar actionBar;
         actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -88,34 +78,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     public class PagerAdapter extends FragmentPagerAdapter {
-        private final FragmentManager mFragmentManager;
-        FirstPageListener listener = new FirstPageListener();
 
         public PagerAdapter(FragmentManager fm) {
             super(fm);
-            mFragmentManager = fm;
-        }
-
-        //SINUSAR
-        private final class FirstPageListener implements
-
-                FirstPageFragmentListener {
-
-            public void onSwitchToNextFragment(String id) {
-                if (mFragmentManager != null) {
-                    mFragmentManager.beginTransaction().remove(mFragmentAtPos0)
-                            .commit();
-                }
-                if (mFragmentAtPos0 instanceof Fragment_Elegir) {
-                    mFragmentAtPos0 = new Fragment_Elegir();
-                    Bundle myBundle = new Bundle();
-                    myBundle.putString("facebookID", facebookID);
-                    mFragmentAtPos0.setArguments(myBundle);
-                } else { // Instance of NextFragment
-                    mFragmentAtPos0 = new Fragment_Elegir();
-                }
-                notifyDataSetChanged();
-            }
         }
 
 
@@ -135,12 +100,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public int getCount() {
             return 3;
         }
-
-        //SINUSAR
+        //TODO: Probar y borrar si no se usa
         @Override
         public int getItemPosition(Object object) {
             if (object instanceof Fragment_Elegir &&
-                    mFragmentAtPos0 instanceof Fragment_Elegir) {
+                    miFragment instanceof Fragment_Elegir) {
                 return POSITION_NONE;
             }
             return POSITION_UNCHANGED;
@@ -159,21 +123,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         fe = (Fragment_Elegir) getSupportFragmentManager().getFragments().get(1);
         fe.OnSetId(facebookID);
     }
-    //TODO
-//        Fragment_Elegir fElegir = new Fragment_Elegir();
-//        Bundle args = new Bundle();
-//        args.putString("facebookID", id);
-//        fElegir.setArguments(args);
-//        fm = getSupportFragmentManager().beginTransaction().remove();
-//        ft = fm.beginTransaction();
-//        List<Fragment> listaFragmentos = fm.getFragments();
-//        for (int i = 0; i < listaFragmentos.size(); i++) {
-//            if (listaFragmentos.get(i) instanceof Fragment_Elegir) {
-//                actionBar.getTabAt(1).
-//                        ft.replace(mViewPager.get, fElegir, "fragment_elegir");
-//                ft.commit();
-//            }
-//        }
 
     public String getFacebookID() {
         return facebookID;

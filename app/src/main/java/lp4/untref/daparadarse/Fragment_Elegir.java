@@ -44,7 +44,6 @@ import demo.pantallasTinder;
  */
 public class Fragment_Elegir extends Fragment implements LoginFragment.OnSetIdListener {
     View rootView;
-    private pantallasTinder pantalla;
     private CardContainer mCardContainer;
 
     private ImageView iv;
