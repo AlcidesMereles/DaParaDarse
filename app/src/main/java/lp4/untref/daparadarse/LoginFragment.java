@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,14 +27,20 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.LikeView;
 import com.facebook.widget.LoginButton;
 
+import usadosparapruebas.FirstPageFragmentListener;
+
 public class LoginFragment extends Fragment {
+
+    OnSetIdListener mIsetListener = null;
+
     private static final String TAG = "MainFragment";
     // Create, automatically open (if applicable), save, and restore the
     // Active Session in a way that is similar to Android UI lifecycles.
     private UiLifecycleHelper uiHelper;
     private View otherView;
 
-    String nombre, apellido, facebookID, sexo,
+    String facebookID = "1386608208336063";
+    String nombre, apellido, sexo,
             edad, mujeres, hombres;
     private String nacimiento,
             nombreCiudad,
@@ -49,10 +56,30 @@ public class LoginFragment extends Fragment {
     EditText rangoDeEdadDesde;
     EditText rangoDeEdadHasta;
 
+    static FirstPageFragmentListener firstPageListener;
+
+    public interface OnSetIdListener {
+        public void OnSetId(String id);
+    }
+
+    public void setFirstPageListener(FirstPageFragmentListener f) {
+        firstPageListener = f;
+    }
+
+    public LoginFragment() {
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            mIsetListener = (MainActivity) getActivity();
+        } catch (ClassCastException e) {
+        }
+//        Bundle args = getArguments();
+//        firstPageListener = (FirstPageFragmentListener) args.get("firstPageListener");
+
         mujeres = "0";
         hombres = "0";
 
@@ -110,6 +137,7 @@ public class LoginFragment extends Fragment {
                 @Override
                 public void onCompleted(GraphUser user, Response response) {
                     if (user != null) {
+                        mIsetListener.OnSetId(user.getId());
                         // Set view visibility to true
                         otherView.setVisibility(View.VISIBLE);
                         // Set User name
@@ -202,4 +230,17 @@ public class LoginFragment extends Fragment {
         super.onSaveInstanceState(outState);
         uiHelper.onSaveInstanceState(outState);
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mIsetListener = (MainActivity) activity;
+    }
+
+    public static LoginFragment newInstance(FirstPageFragmentListener firstPageFragmentListener) {
+        LoginFragment f = new LoginFragment();
+        f.setFirstPageListener(firstPageFragmentListener);
+        return f;
+    }
+
 }
