@@ -109,6 +109,35 @@ public class ClienteHttp {
         return true;
     }
 
+    public String enviarGustos(Map<String, String> map) {
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpContext localContext = new BasicHttpContext();
+        HttpPost httpPost = new HttpPost(
+                "http://daparadarse.site88.net/Android/guardarGustos.php");
+        HttpResponse response = null;
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("id", map.get("id")));
+            params.add(new BasicNameValuePair("otroId", map.get("otroId")));
+            params.add(new BasicNameValuePair("nombre", map.get("nombre")));
+//            params.add(new BasicNameValuePair("apellido", map.get("apellido")));
+//            params.add(new BasicNameValuePair("edad", map.get("edad")));
+//            params.add(new BasicNameValuePair("sexo", map.get("sexo")));
+//            params.add(new BasicNameValuePair("pais", map.get("pais")));
+//            params.add(new BasicNameValuePair("mujeres", map.get("mujeres")));
+//            params.add(new BasicNameValuePair("hombres", map.get("hombres")));
+//            params.add(new BasicNameValuePair("edadDesde", map.get("rangoDeEdadDesde")));
+//            params.add(new BasicNameValuePair("edadHasta", map.get("rangoDeEdadHasta")));
+            httpPost.setEntity(new UrlEncodedFormEntity(params));
+            response = httpClient.execute(httpPost, localContext);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(response.toString());
+        return response.toString();
+    }
+
+
     //TODO: Borrar si en un futuro no se llega a usar
     //Clase aun no usada.
     private class ComprobarExistenciaId extends AsyncTask<String, Void, String> {

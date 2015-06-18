@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -84,7 +86,13 @@ public class Fragment_Elegir extends Fragment implements LoginFragment.OnSetIdLi
         CardModel[] cards = new CardModel[p.length];
 
         for (int i = 0; i < p.length; i++) {
-            CardModel cardModel = new CardModel(p[i].nombre + " " + p[i].apellido + " " + p[i].edad, p[i].ciudad + " - " + p[i].provincia, p[i].myDrawable);
+            final CardModel cardModel = new CardModel(p[i].nombre + " " + p[i].apellido + " " + p[i].edad, p[i].ciudad + " - " + p[i].provincia, p[i].myDrawable);
+
+            cardModel.setNombreUsuario(p[i].nombre);
+            cardModel.setApellidoUsuario(p[i].apellido);
+            cardModel.setEdadUsuario(p[i].edad);
+            cardModel.setIdUsuario(p[i].id);
+
             cardModel.setOnClickListener(new CardModel.OnClickListener() {
                 @Override
                 public void OnClickListener() {
@@ -96,6 +104,13 @@ public class Fragment_Elegir extends Fragment implements LoginFragment.OnSetIdLi
             cardModel.setOnCardDimissedListener(new CardModel.OnCardDimissedListener() {
                 @Override
                 public void onLike() {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("nombre", cardModel.getNombreUsuario());
+                    System.out.println("Este es el nombre: " + cardModel.getNombreUsuario());
+                    map.put("otroId", cardModel.getIdUsuario());
+                    map.put("id", id);
+                    EnviarGustos envio = new EnviarGustos();
+                    envio.execute(map);
                     Log.i("Swipeable Cards", "I like the card");
                 }
 
@@ -159,7 +174,9 @@ public class Fragment_Elegir extends Fragment implements LoginFragment.OnSetIdLi
                 perfiles[i].edad = json.getJSONObject(i).getString("edad");
                 perfiles[i].ciudad = json.getJSONObject(i).getString("ciudad");
                 perfiles[i].provincia = json.getJSONObject(i).getString("provincia");
+                perfiles[i].pais = json.getJSONObject(i).getString("pais");
                 perfiles[i].sexo = json.getJSONObject(i).getString("sexo");
+                perfiles[i].id = json.getJSONObject(i).getString("id");
             }
             System.out.println(json.length());
             for (int i = 0; i < directorios.length; i++) {
@@ -230,7 +247,38 @@ public class Fragment_Elegir extends Fragment implements LoginFragment.OnSetIdLi
         String edad;
         String ciudad;
         String provincia;
+        String pais;
+        String id;
     }
 
+    class EnviarGustos extends AsyncTask<Map<String, String>, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            for (int i = 0; i <.length;
+//            i++){
+//                map.put("nombre", perfilesUsuarios[i].nombre);
+//                map.put("apellido", perfilesUsuarios[i].apellido);
+//                map.put("edad", perfilesUsuarios[i].edad);
+//                map.put("facebookID", perfilesUsuarios[i].id);
+//                map.put("sexo", perfilesUsuarios[i].sexo);
+//            }
+        }
+
+        @Override
+        protected String doInBackground(Map<String, String>... params) {
+
+            ClienteHttp cliente = new ClienteHttp();
+            cliente.enviarGustos(params[0]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
 
 }

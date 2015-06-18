@@ -10,17 +10,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ViewGroup;
 
+//SINUSAR
 import java.util.List;
 
 import usadosparapruebas.FirstPageFragmentListener;
 
-/**
- * Created by Spider on 07/06/2015.
- */
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener, LoginFragment.OnSetIdListener {
     private ViewPager mViewPager;
 
     FragmentManager fm;
+    //SINUSAR
     FragmentTransaction ft;
     public Fragment mFragmentAtPos0;
     String facebookID;
@@ -97,6 +96,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             mFragmentManager = fm;
         }
 
+        //SINUSAR
         private final class FirstPageListener implements
 
                 FirstPageFragmentListener {
@@ -136,6 +136,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             return 3;
         }
 
+        //SINUSAR
         @Override
         public int getItemPosition(Object object) {
             if (object instanceof Fragment_Elegir &&
@@ -158,7 +159,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         fe = (Fragment_Elegir) getSupportFragmentManager().getFragments().get(1);
         fe.OnSetId(facebookID);
     }
-
+    //TODO
 //        Fragment_Elegir fElegir = new Fragment_Elegir();
 //        Bundle args = new Bundle();
 //        args.putString("facebookID", id);
