@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ClienteHttp {
-    private boolean existeId;
+    private boolean existeId = false;
     private static final String SERVER_PATH = "http://daparadarse.site88.net/";
 
     public String enviarPost(Map<String, String> map) {
@@ -59,7 +59,7 @@ public class ClienteHttp {
     public String leer(String idUsuarioFacebook) {
         HttpClient cliente = new DefaultHttpClient();
         HttpContext contexto = new BasicHttpContext();
-        HttpGet httpget = new HttpGet(SERVER_PATH + "/Android/pruebaCriterio.php?id=" + idUsuarioFacebook);
+        HttpGet httpget = new HttpGet(SERVER_PATH + "Android/pc_no_modificar.php?id=" + idUsuarioFacebook);
         String resultado = null;
         try {
             HttpResponse response = cliente.execute(httpget, contexto);
@@ -95,18 +95,17 @@ public class ClienteHttp {
 
     public JSONArray obtenerJSON(String idUsuarioFacebook) {
         String res = leer(idUsuarioFacebook);
-        JSONObject jObject = new JSONObject(res);
-        JSONArray jArray = jObject.getJSONArray("usuarios");
+        JSONObject jObject;
+        JSONArray jArray = null;
+
+        if (res != null) {
+            Log.i("res: ", res);
+            jObject = new JSONObject(res);
+            jArray = jObject.getJSONArray("usuarios");
+        } else {
+            Log.i("res nulo", "res nulo");
+        }
         return jArray;
-    }
-
-    //TODO: Borrar si en un futuro no se llega a usar
-    //Metodo aun no usado.
-    public boolean existeId(String id) {
-
-        new ComprobarExistenciaId().execute(id);
-
-        return true;
     }
 
     public String enviarGustos(Map<String, String> map) {
@@ -138,31 +137,4 @@ public class ClienteHttp {
     }
 
 
-    //TODO: Borrar si en un futuro no se llega a usar
-    //Clase aun no usada.
-    private class ComprobarExistenciaId extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            HttpClient cliente = new DefaultHttpClient();
-            HttpContext contexto = new BasicHttpContext();
-            HttpGet httpget = new HttpGet(SERVER_PATH + "/Android/comprobarExistenciaId.php?id=" + params[0]);
-            String resultado = null;
-            try {
-                HttpResponse response = cliente.execute(httpget, contexto);
-                HttpEntity entity = response.getEntity();
-                resultado = EntityUtils.toString(entity, "UTF-8");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Log.i("Resulado de si existe", resultado);
-            return resultado;
-        }
-
-        @Override
-        protected void onPostExecute(String resultado) {
-            existeId = !resultado.equals("0");
-        }
-    }
 }
