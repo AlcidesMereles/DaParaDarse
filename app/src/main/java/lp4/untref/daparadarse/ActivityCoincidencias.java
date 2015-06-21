@@ -26,7 +26,6 @@ public class ActivityCoincidencias extends ActionBarActivity {
     // Progress Dialog
     private ProgressDialog pDialog;
 
-
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
 
