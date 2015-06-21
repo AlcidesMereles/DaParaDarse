@@ -137,6 +137,17 @@ public class LoginFragment extends Fragment {
 
                                 }
                             });
+                            Button botonPerfil = (Button) otherView.findViewById(R.id.fotoPerfil);
+                            botonPerfil.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                            /* si estoy conectado muestro el boton de reserva online */
+                                    Intent miIntent = new Intent(getActivity(), subirFotoServidor.class);
+                                    miIntent.putExtra("id",facebookID);
+                                    startActivity(miIntent);
+
+                                }
+                            });
 
 
                         btnGuardar.setOnClickListener(new View.OnClickListener() {
