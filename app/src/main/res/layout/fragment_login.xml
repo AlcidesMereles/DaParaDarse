@@ -179,6 +179,14 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sacar Foto Perfil"
+                android:id="@+id/fotoPerfil"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp" />
+
         </LinearLayout>
 
 
