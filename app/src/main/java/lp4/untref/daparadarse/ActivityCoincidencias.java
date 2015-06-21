@@ -26,13 +26,18 @@ public class ActivityCoincidencias extends ActionBarActivity {
     // Progress Dialog
     private ProgressDialog pDialog;
 
+
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
 
     ArrayList<HashMap<String, String>> listaConcidencias;
 
+    //private static GuardarId unId;
+    //private static String elId = unId.getId();
+
     // url to get all user list
-    private static String urlCoincidencias = "http://daparadarse.site88.net/Android/mostrarCoincidencias.php?id=842300342544886";
+    //private static String urlCoincidencias = "http://daparadarse.site88.net/Android/mostrarCoincidencias.php?id="+elId;
+    private static String urlCoincidencias = "http://daparadarse.site88.net/Android/mostrarCoincidencias.php";
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -78,7 +83,7 @@ public class ActivityCoincidencias extends ActionBarActivity {
                     protected void onPreExecute() {
                         super.onPreExecute();
                         pDialog = new ProgressDialog(ActivityCoincidencias.this);
-                        pDialog.setMessage("Cargando comercios. Por favor espere...");
+                        pDialog.setMessage("Cargando coincidencias. Por favor espere...");
                         pDialog.setIndeterminate(false);
                         pDialog.setCancelable(false);
                         pDialog.show();
@@ -163,6 +168,6 @@ public class ActivityCoincidencias extends ActionBarActivity {
                             }
                         });
                     }
-                }
+        }
 
-            }
+}
