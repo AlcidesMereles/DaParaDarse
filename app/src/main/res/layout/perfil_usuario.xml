@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/saludo"
+        android:text="Gracias por utilizar nuestra aplicación" />
+
+    <TextView
+        android:id="@+id/nombreUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="10dp"
+        android:paddingBottom="2dip"
+        android:text="nombre"
+        android:textColor="#333"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/indicadorGusto"
+        android:text="Has seleccionado para buscar" />
+
+    <TextView
+        android:id="@+id/generoBuscado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:paddingBottom="2dip"
+        android:text="sexo"
+        android:textColor="#333"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/indicadorCiudad"
+        android:text="De la ciudad" />
+
+    <TextView
+        android:id="@+id/ciudadUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:paddingBottom="2dip"
+        android:text="ciudad"
+        android:textColor="#333"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/indicadorEdad"
+        android:text="Con una edad entre" />
+
+    <TextView
+        android:id="@+id/edadMinima"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:paddingBottom="2dip"
+        android:text="edadMinima"
+        android:textColor="#333"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/edadMaxima"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="10dp"
+        android:paddingBottom="2dip"
+        android:text="edadMaxima"
+        android:textColor="#333"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+
+</LinearLayout>
