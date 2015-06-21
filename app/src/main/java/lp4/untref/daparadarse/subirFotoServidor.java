@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -50,12 +51,22 @@ public class subirFotoServidor extends ActionBarActivity {
     private Uri output;
     private String foto;
     private File file;
+    private static String urlSubirFoto = null;
+    private static String urlInsertarFoto = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_subir_foto_servidor);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        String idUsuario =bundle.getString("id");
+
+        urlSubirFoto = "http://daparadarse.site88.net/Android/subirImagenServidor.php?id="+ idUsuario;
+        urlInsertarFoto = "http://daparadarse.site88.net/Android/insertarImagenServidor.php?id="+ idUsuario;
 
         nombreImagen = (EditText) findViewById(R.id.nombreImagen);
 
@@ -129,6 +140,11 @@ public class subirFotoServidor extends ActionBarActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            bit = BitmapFactory.decodeFile(foto, options);
+
             Matrix matrix = new Matrix();
             matrix.postRotate(rotate);
             bit = Bitmap.createBitmap(bit, 0, 0, bit.getWidth(), bit.getHeight(), matrix, true);
@@ -148,7 +164,7 @@ public class subirFotoServidor extends ActionBarActivity {
     private void uploadFoto(String imag) {
         HttpClient httpclient = new DefaultHttpClient();
         httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-        HttpPost httppost = new HttpPost("http://daparadarse.site88.net/subirImagen.php");
+        HttpPost httppost = new HttpPost(urlSubirFoto);
         MultipartEntity mpEntity = new MultipartEntity();
         ContentBody foto = new FileBody(file, "image/jpeg");
         mpEntity.addPart("fotoUp", foto);
@@ -170,7 +186,7 @@ public class subirFotoServidor extends ActionBarActivity {
         List<NameValuePair> nameValuePairs;
         HttpPost httppost;
         httpclient = new DefaultHttpClient();
-        httppost = new HttpPost("http://daparadarse.site88.net/insertarImagen.php"); // Url del Servidor
+        httppost = new HttpPost(urlInsertarFoto); // Url del Servidor
         //Añadimos nuestros datos
         nameValuePairs = new ArrayList<NameValuePair>(1);
         nameValuePairs.add(new BasicNameValuePair("imagen", nombreImagen.getText().toString().trim() + ".jpg"));
@@ -236,6 +252,7 @@ public class subirFotoServidor extends ActionBarActivity {
             super.onPostExecute(result);
             pDialog.dismiss();
         }
+
 
     }
 }
