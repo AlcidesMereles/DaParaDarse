@@ -1,9 +1,5 @@
 package lp4.untref.daparadarse;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,10 +19,13 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
-import com.facebook.widget.LikeView;
 import com.facebook.widget.LoginButton;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginFragment extends Fragment {
+
     private static final String TAG = "MainFragment";
     // Create, automatically open (if applicable), save, and restore the
     // Active Session in a way that is similar to Android UI lifecycles.
@@ -50,6 +49,7 @@ public class LoginFragment extends Fragment {
     EditText rangoDeEdadHasta;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +59,7 @@ public class LoginFragment extends Fragment {
         // To maintain FB Login session
         uiHelper = new UiLifecycleHelper(getActivity(), callback);
         uiHelper.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -76,12 +77,14 @@ public class LoginFragment extends Fragment {
         interesanMujeres = (CheckBox) view.findViewById(R.id.checkBoxMujeres);
         interesanHombres = (CheckBox) view.findViewById(R.id.checkBoxHombres);
 
+
         // Looks for Login button
         LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
         authButton.setFragment(this);
         // Set View that should be visible after log-in invisible initially
         otherView = view.findViewById(R.id.view_formulario);
         otherView.setVisibility(View.GONE);
+
         //authButton.setReadPermissions(Arrays.asList("user_likes", "user_status","email","user_birthday"));
         return view;
     }
@@ -99,6 +102,7 @@ public class LoginFragment extends Fragment {
     private void onSessionStateChange(Session session, SessionState state,
                                       Exception exception) {
         final TextView name = (TextView) getView().findViewById(R.id.name);
+        final TextView unIDFacebook = (TextView) getView().findViewById(R.id.idFacebook);
 
         if (state.isOpened()) {
             Log.i(TAG, "Logged in...");
@@ -109,7 +113,8 @@ public class LoginFragment extends Fragment {
                 // object
                 @Override
                 public void onCompleted(GraphUser user, Response response) {
-                    if (user != null) {
+                        if (user != null) {
+
                         // Set view visibility to true
                         otherView.setVisibility(View.VISIBLE);
                         // Set User name
@@ -118,6 +123,21 @@ public class LoginFragment extends Fragment {
                         apellido = user.getLastName();
                         facebookID = user.getId();
                         sexo = user.getProperty("gender").toString().equals("male") ? "hombre" : "mujer";
+                        GuardarId unId = new GuardarId();
+                        unId.setId(facebookID);
+                        unIDFacebook.setText(user.getId());
+                            Button boton = (Button) otherView.findViewById(R.id.botonPerfil);
+                            boton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                            /* si estoy conectado muestro el boton de reserva online */
+                                    Intent miIntent = new Intent(getActivity(), MostrarPerfil.class);
+                                    miIntent.putExtra("id",facebookID);
+                                    startActivity(miIntent);
+
+                                }
+                            });
+
 
                         btnGuardar.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -202,4 +222,5 @@ public class LoginFragment extends Fragment {
         super.onSaveInstanceState(outState);
         uiHelper.onSaveInstanceState(outState);
     }
+
 }
