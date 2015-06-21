@@ -1,21 +1,5 @@
 package lp4.untref.daparadarse;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.andtinder.model.CardModel;
-import com.andtinder.view.CardContainer;
-import com.andtinder.view.SimpleCardStackAdapter;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -25,12 +9,40 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.Menu;
+import android.widget.ImageView;
+
+
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import android.view.Window;
+import android.widget.Toast;
+
+import com.andtinder.model.CardModel;
+import com.andtinder.view.CardContainer;
+import com.andtinder.view.SimpleCardStackAdapter;
+
 import javaphpmysql.JSONArray;
+import lp4.untref.daparadarse.R;
+
+import com.andtinder.view.CardContainer;
+
+import demo.pantallasTinder;
 
 /**
  * Created by Spider on 07/06/2015.
  */
-public class Fragment_Elegir extends Fragment{// implements LoginFragment.OnSetIdListener {
+public class Fragment_Elegir extends Fragment implements LoginFragment.OnSetIdListener {
     View rootView;
     private CardContainer mCardContainer;
 
@@ -127,7 +139,7 @@ public class Fragment_Elegir extends Fragment{// implements LoginFragment.OnSetI
         miJsonArray = json;
         setImagen(perfilesUsuarios);
     }
-/**
+
     @Override
     public void OnSetId(String userID) {
         id = userID;
@@ -137,7 +149,7 @@ public class Fragment_Elegir extends Fragment{// implements LoginFragment.OnSetI
             load.execute("");
         }
     }
-**/
+
     private class LoadDrawable extends AsyncTask<String, Void, String> {
         Drawable[] d;
         String[] directorios;
