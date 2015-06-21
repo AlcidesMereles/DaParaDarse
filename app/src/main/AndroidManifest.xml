@@ -40,6 +40,10 @@
         <activity
             android:name=".MostrarPerfil"
             android:label="@string/app_name" />
+
+        <activity
+            android:name=".subirFotoServidor"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>
