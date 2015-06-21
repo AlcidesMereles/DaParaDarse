@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Created by Spider on 07/06/2015.
@@ -17,7 +18,10 @@ public class Fragment_Chats extends Fragment {
 
     OnHeadlineSelectedListener mCallback;
     View rootView;
+    View fmPerfil;
     Button miBoton;
+    GuardarId unID = null;
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -41,6 +45,12 @@ public class Fragment_Chats extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fm_chats, container, false);
+        fmPerfil = inflater.inflate(R.layout.fragment_login, container, false);
+
+        TextView elId= (TextView) fmPerfil.findViewById(R.id.idFacebook);
+        TextView miId = (TextView) rootView.findViewById(R.id.idPerfil);
+        miId.setText(elId.getText());
+
         Button boton = (Button) rootView.findViewById(R.id.boton);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
