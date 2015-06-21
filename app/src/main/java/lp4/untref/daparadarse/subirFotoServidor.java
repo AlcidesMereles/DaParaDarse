@@ -237,7 +237,6 @@ public class subirFotoServidor extends ActionBarActivity {
             pDialog.dismiss();
         }
 
-
     }
 }
 
