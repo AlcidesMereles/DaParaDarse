@@ -2,6 +2,7 @@ package lp4.untref.daparadarse;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,32 +10,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * Created by Spider on 07/06/2015.
- */
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import javaphpmysql.JSONArray;
+
 public class Fragment_Chats extends Fragment {
 
-
-    OnHeadlineSelectedListener mCallback;
+    boolean existenCoincidencias;
     View rootView;
     View fmPerfil;
     Button miBoton;
+    private String facebookID;
     GuardarId unID = null;
+    JSONParser jParser = new JSONParser();
 
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        // Nos aseguramos de que la actividad contenedora haya implementado la
-        // interfaz de retrollamada. Si no, lanzamos una excepción
-        try {
-            mCallback = (OnHeadlineSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " debe implementar OnHeadlineSelectedListener");
-        }
     }
 
     @Override
@@ -47,7 +46,7 @@ public class Fragment_Chats extends Fragment {
         rootView = inflater.inflate(R.layout.fm_chats, container, false);
         fmPerfil = inflater.inflate(R.layout.fragment_login, container, false);
 
-        TextView elId= (TextView) fmPerfil.findViewById(R.id.idFacebook);
+        TextView elId = (TextView) fmPerfil.findViewById(R.id.idFacebook);
         TextView miId = (TextView) rootView.findViewById(R.id.idPerfil);
         miId.setText(elId.getText());
 
@@ -55,20 +54,13 @@ public class Fragment_Chats extends Fragment {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    /* si estoy conectado muestro el boton de reserva online */
-                Intent miIntent = new Intent(getActivity(), ActivityCoincidencias.class);
-                startActivity(miIntent);
-
+                new ComprobarExistenciaCoincidencias().execute();
             }
         });
         return rootView;
     }
 
-    public interface OnHeadlineSelectedListener {
-        void onArticleSelected(int position);
-    }
-
-    public class Listener implements View.OnClickListener{
+    public class Listener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -77,5 +69,43 @@ public class Fragment_Chats extends Fragment {
         }
     }
 
+    private class ComprobarExistenciaCoincidencias extends AsyncTask<Void, Void, String> {
+        private String urlCoincidencias = "http://daparadarse.site88.net/Android/mostrarCoincidencias.php";
+        private boolean coincidencias;
+        private String id;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            MainActivity mActivity = (MainActivity) getActivity();
+            id = mActivity.getFacebookID();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            JSONArray json;
+            List<String> args = new LinkedList<String>();
+            args.add(id);
+            if (id != null) {
+                json = new ClienteHttp().getJsonResponse(urlCoincidencias, id);
+                coincidencias = json != null;
+            }
+            String a = " ";
+            return a;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (coincidencias && id != null) {
+                /* si estoy conectado muestro el boton de reserva online */
+                Intent miIntent = new Intent(getActivity(), ActivityCoincidencias.class);
+                miIntent.putExtra("facebookID", id);
+                startActivity(miIntent);
+            } else {
+                Toast.makeText(getActivity(), "No hay coincidencias", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
 }

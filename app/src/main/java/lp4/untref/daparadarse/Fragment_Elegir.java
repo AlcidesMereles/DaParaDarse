@@ -1,5 +1,6 @@
 package lp4.untref.daparadarse;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -30,17 +31,21 @@ import javaphpmysql.JSONArray;
 /**
  * Created by Spider on 07/06/2015.
  */
-public class Fragment_Elegir extends Fragment{// implements LoginFragment.OnSetIdListener {
+public class Fragment_Elegir extends Fragment implements LoginFragment.OnSetIdListener {
     View rootView;
     private CardContainer mCardContainer;
 
     private ImageView iv;
 
+    private OnLiked mCallback;
     private List<Drawable> imagen;
-
     private JSONArray miJsonArray;
     private String id;
     private Perfil[] perfilesUsuarios;//TODO: Revisar posible cambio.
+
+    public interface OnLiked {
+        public void onLike();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +70,6 @@ public class Fragment_Elegir extends Fragment{// implements LoginFragment.OnSetI
     public void setImagen(Perfil[] p) {
 
         mCardContainer = (CardContainer) rootView.findViewById(R.id.layoutview);
-
-        Resources r = getResources();
 
         SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(getActivity());
 
@@ -127,7 +130,13 @@ public class Fragment_Elegir extends Fragment{// implements LoginFragment.OnSetI
         miJsonArray = json;
         setImagen(perfilesUsuarios);
     }
-/**
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallback = (OnLiked) activity;
+    }
+
     @Override
     public void OnSetId(String userID) {
         id = userID;
@@ -137,7 +146,7 @@ public class Fragment_Elegir extends Fragment{// implements LoginFragment.OnSetI
             load.execute("");
         }
     }
-**/
+
     private class LoadDrawable extends AsyncTask<String, Void, String> {
         Drawable[] d;
         String[] directorios;

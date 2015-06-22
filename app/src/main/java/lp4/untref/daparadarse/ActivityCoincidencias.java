@@ -10,6 +10,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,6 +59,7 @@ public class ActivityCoincidencias extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coincidencias);
+        facebookID = getIntent().getStringExtra("facebookID");
 
         // Hashmap para el ListView
         listaConcidencias = new ArrayList<HashMap<String, String>>();
@@ -71,102 +73,102 @@ public class ActivityCoincidencias extends ActionBarActivity {
 
     }
 
-
-        class CargarCoincidencias extends AsyncTask<String, String, String> {
-
-
-                    /**
-                     * Antes de empezar el background thread Show Progress Dialog
-                     */
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
-                        pDialog = new ProgressDialog(ActivityCoincidencias.this);
-                        pDialog.setMessage("Cargando coincidencias. Por favor espere...");
-                        pDialog.setIndeterminate(false);
-                        pDialog.setCancelable(false);
-                        pDialog.show();
-                    }
-
-                    /**
-                     * obteniendo todos los productos
-                     */
-                    protected String doInBackground(String... args) {
-                        // Building Parameters
-                        List params = new ArrayList();
-                        // getting JSON string from URL
-                        JSONObject json = jParser.makeHttpRequest(urlCoincidencias, "GET", params);
-
-                        // Check your log cat for JSON reponse
-                        Log.d("Coincidencias: ", json.toString());
-
-                        try {
-                            // Checking for SUCCESS TAG
-                            int success = json.getInt(TAG_SUCCESS);
-
-                            if (success == 1) {
-                                // products found
-                                // Getting Array of Products
-                                usuariosJ = json.getJSONArray(TAG_USUARIOS);
-
-                                // looping through All Users
-                                //Log.i("ramiro", "usuariosJ.length" + usuariosJ.length());
-                                for (int i = 0; i < usuariosJ.length(); i++) {
-                                    JSONObject c = usuariosJ.getJSONObject(i);
-
-                                    // Storing each json item in variable
-                                    String apellidoServidor = c.getString(TAG_APELLIDO);
-                                    String nombreServidor = c.getString(TAG_NOMBRE);
-                                    String idServidor = c.getString(TAG_ID);
+    class CargarCoincidencias extends AsyncTask<String, String, String> {
 
 
-                                    // creating new HashMap
-                                    HashMap map = new HashMap();
-                                    // adding each child node to HashMap key => value
-                                    map.put(TAG_APELLIDO, apellidoServidor);
-                                    map.put(TAG_NOMBRE, nombreServidor);
-                                    listaConcidencias.add(map);
-
-
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-
-                    /**
-                     * After completing background task Dismiss the progress dialog
-                     * *
-                     */
-                    protected void onPostExecute(String file_url) {
-                        // dismiss the dialog after getting all products
-                        pDialog.dismiss();
-                        // updating UI from Background Thread
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                /**
-                                 * Updating parsed JSON data into ListView
-                                 * */
-                                ListAdapter adapter = new SimpleAdapter(
-                                        ActivityCoincidencias.this,
-                                        listaConcidencias,
-                                        R.layout.single_post,
-                                        new String[]{
-                                                TAG_APELLIDO,
-                                                TAG_NOMBRE,
-                                        },
-                                        new int[]{
-                                                R.id.apellidoInteresado,
-                                                R.id.nombreInteresado,
-                                        });
-                                // updating listview
-                                //setListAdapter(adapter);
-                                lista.setAdapter(adapter);
-                            }
-                        });
-                    }
+        /**
+         * Antes de empezar el background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ActivityCoincidencias.this);
+            pDialog.setMessage("Cargando coincidencias. Por favor espere...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
+
+        /**
+         * obteniendo todos los productos
+         */
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List params = new ArrayList();
+            params.add(new BasicNameValuePair("id", facebookID));
+            // getting JSON string from URL
+            JSONObject json = jParser.makeHttpRequest(urlCoincidencias, "GET", params);
+
+            // Check your log cat for JSON reponse
+            Log.d("Coincidencias: ", json.toString());
+
+            try {
+                // Checking for SUCCESS TAG
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+                    // products found
+                    // Getting Array of Products
+                    usuariosJ = json.getJSONArray(TAG_USUARIOS);
+
+                    // looping through All Users
+                    //Log.i("ramiro", "usuariosJ.length" + usuariosJ.length());
+                    for (int i = 0; i < usuariosJ.length(); i++) {
+                        JSONObject c = usuariosJ.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String apellidoServidor = c.getString(TAG_APELLIDO);
+                        String nombreServidor = c.getString(TAG_NOMBRE);
+                        String idServidor = c.getString(TAG_ID);
+
+
+                        // creating new HashMap
+                        HashMap map = new HashMap();
+                        // adding each child node to HashMap key => value
+                        map.put(TAG_APELLIDO, apellidoServidor);
+                        map.put(TAG_NOMBRE, nombreServidor);
+                        listaConcidencias.add(map);
+
+
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * *
+         */
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after getting all products
+            pDialog.dismiss();
+            // updating UI from Background Thread
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    /**
+                     * Updating parsed JSON data into ListView
+                     * */
+                    ListAdapter adapter = new SimpleAdapter(
+                            ActivityCoincidencias.this,
+                            listaConcidencias,
+                            R.layout.single_post,
+                            new String[]{
+                                    TAG_APELLIDO,
+                                    TAG_NOMBRE,
+                            },
+                            new int[]{
+                                    R.id.apellidoInteresado,
+                                    R.id.nombreInteresado,
+                            });
+                    // updating listview
+                    //setListAdapter(adapter);
+                    lista.setAdapter(adapter);
+                }
+            });
+        }
+    }
 
 }

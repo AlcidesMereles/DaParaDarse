@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import javaphpmysql.JSONArray;
+import javaphpmysql.JSONException;
 import javaphpmysql.JSONObject;
 
 public class ClienteHttp {
@@ -135,5 +136,34 @@ public class ClienteHttp {
         return response.toString();
     }
 
+    public JSONArray getJsonResponse(String url, String facebookID) {
+        String res = leerJson(url, facebookID);
+        JSONObject jObject;
+        JSONArray jArray = null;
+
+        try {
+            Log.i("res: ", res);
+            jObject = new JSONObject(res);
+            jArray = jObject.getJSONArray("usuarios");
+        } catch (JSONException e) {
+            Log.i("res nulo", "res nulo");
+        }
+        return jArray;
+    }
+
+    public String leerJson(String url, String idUsuarioFacebook) {
+        HttpClient cliente = new DefaultHttpClient();
+        HttpContext contexto = new BasicHttpContext();
+        HttpGet httpget = new HttpGet(url + "?id=" + idUsuarioFacebook);
+        String resultado = null;
+        try {
+            HttpResponse response = cliente.execute(httpget, contexto);
+            HttpEntity entity = response.getEntity();
+            resultado = EntityUtils.toString(entity, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultado;
+    }
 
 }

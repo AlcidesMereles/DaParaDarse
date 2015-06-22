@@ -10,7 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ViewGroup;
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener, Fragment_Chats.OnHeadlineSelectedListener{//, LoginFragment.OnSetIdListener {
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, ViewPager.OnPageChangeListener, Fragment_Elegir.OnLiked, LoginFragment.OnSetIdListener {
     private ViewPager mViewPager;
 
     FragmentManager fm;
@@ -78,8 +78,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     @Override
-    public void onArticleSelected(int position) {
+    public void onLike() {
 
+        Fragment_Chats fc;
+        fc = (Fragment_Chats) getSupportFragmentManager().getFragments().get(2);
     }
 
     public class PagerAdapter extends FragmentPagerAdapter {
@@ -105,6 +107,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public int getCount() {
             return 3;
         }
+
         //TODO: Probar y borrar si no se usa
         @Override
         public int getItemPosition(Object object) {
@@ -119,16 +122,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public void destroyItem(ViewGroup container, int position, Object object) {
         }
     }
-/**
+
+
     @Override
     public void OnSetId(String userID) {
-
         facebookID = userID;
         Fragment_Elegir fe;
         fe = (Fragment_Elegir) getSupportFragmentManager().getFragments().get(1);
         fe.OnSetId(facebookID);
     }
-**/
+
+    public void setFacebookID(String id) {
+        facebookID = id;
+    }
+
     public String getFacebookID() {
         return facebookID;
     }
